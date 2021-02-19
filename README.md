@@ -16,10 +16,10 @@ A human vs human player chess program written in Java and JavaFX. Features a gra
 
 ## GUI Screenshots
 ### Normal Position
-![normal position](./images/gui_screenshot.PNG)
+<img src="./images/gui_screenshot.PNG" alt="Normal Chess Position" width="250"/>
 ### Castling Moves
-![castling moves](./images/gui_castling.PNG)
+<img src="./images/gui_castling.PNG" alt="Castling" width="250"/>
 ### Check
-![check](./images/gui_check.PNG)
+<img src="./images/gui_check.PNG" alt="Check" width="250"/>
 ### Checkmate
 <img src="./images/gui_checkmate.PNG" alt="Checkmate" width="250"/>
