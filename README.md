@@ -16,4 +16,4 @@ A human vs human player chess program written in Java and JavaFX. Features a gra
 
 ## GUI Screenshots
 ### Normal position
-[normal position](./images/gui_screenshot.PNG)
+(./images/gui_screenshot.PNG)
