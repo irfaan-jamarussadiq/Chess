@@ -1,4 +1,5 @@
-# Chess 🙿
+🙿🙿🙿
+# Chess
 
 A human vs human player chess program written in Java and JavaFX. Features a graphical user interface (GUI) for playing moves.
 
