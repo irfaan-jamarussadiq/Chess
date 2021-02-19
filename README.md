@@ -17,8 +17,7 @@ A human vs human player chess program written in Java and JavaFX. Features a gra
 ## GUI Screenshots
 | Normal Position  | Castling Moves |
 | ------------- | ------------- |
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
+| <img src="./images/gui_screenshot.PNG" alt="Normal Chess Position" width="250"/>  | <img src="./images/gui_castling.PNG" alt="Castling" width="250"/>  |
 
 
 ### Normal Position
