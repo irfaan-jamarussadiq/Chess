@@ -11,11 +11,11 @@ A human vs human player chess program written in Java and JavaFX. Features a gra
 
 ## Program Design
 1. Object Oriented Design of pieces. 
-  - Used inheritance for pieces (classes for knights, bishops, etc extend from a Piece class)
+    - Used inheritance for pieces (classes for knights, bishops, etc extend from a Piece class)
 2. MVC architecture for chessboard (BoardModel, BoardView, BoardController)
-  - BoardModel tracks the locations of all board pieces.
-  - BoardView tracks the locations of all image representations of the board pieces.
-  - BoardController communicates between the model and view and ties them together.
+    - BoardModel tracks the locations of all board pieces.
+    - BoardView tracks the locations of all image representations of the board pieces.
+    - BoardController communicates between the model and view and ties them together.
 3. JUnit Testing using inner classes approach
 
 ## GUI Screenshots
