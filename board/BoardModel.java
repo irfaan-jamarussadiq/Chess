@@ -37,7 +37,8 @@ public class BoardModel {
     }
 
     public void castle(Piece piece, int newRank, int newFile) {
-        if (newRank != piece.getRank() || !(piece instanceof King)) {
+        if (newRank != piece.getRank() || !(piece instanceof King)
+        || kingIsInCheck(piece.getPlayer())) {
             return;
         }
 

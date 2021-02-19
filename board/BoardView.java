@@ -66,7 +66,7 @@ public class BoardView extends GridPane {
     }
 
     public void highlightCastlingMoves(BoardModel model, Piece king, int newFile) {
-        if (!(king instanceof King)) {
+        if (!(king instanceof King) || model.kingIsInCheck(king.getPlayer())) {
             return;
         }
 
