@@ -22,4 +22,4 @@ A human vs human player chess program written in Java and JavaFX. Features a gra
 ### Check
 ![check](./images/gui_check.PNG)
 ### Checkmate
-![checkmate](./images/gui_checkmate.PNG | height=100)
+![checkmate](./images/gui_checkmate.PNG){:height="36px"}
