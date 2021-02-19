@@ -15,6 +15,12 @@ A human vs human player chess program written in Java and JavaFX. Features a gra
 3. JUnit Testing using inner classes approach
 
 ## GUI Screenshots
+| Normal Position  | Castling Moves |
+| ------------- | ------------- |
+| Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  |
+
+
 ### Normal Position
 <img src="./images/gui_screenshot.PNG" alt="Normal Chess Position" width="250"/>
 
