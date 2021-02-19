@@ -13,3 +13,7 @@ A human vs human player chess program written in Java and JavaFX. Features a gra
 1. Object Oriented Design of pieces.
 2. MVC architecture for chessboard (BoardModel, BoardView, BoardController)
 3. JUnit Testing using inner classes approach
+
+## GUI Screenshots
+### Normal position
+[normal position](./images/gui_screenshot.PNG)
