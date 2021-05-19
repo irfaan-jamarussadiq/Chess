@@ -29,9 +29,10 @@ public class BoardController implements EventHandler<MouseEvent> {
             && game.getCurrentPlayer() == piece.getPlayer()) {
         
             if (model.isCastlingMove(piece, newRank, newFile)) {
-                int rookFile = model.isCastlingOOMove((King) piece, newRank, newFile) ? 7 : 0;
-                Piece rook = model.pieceAt(piece.getRank(), rookFile);
-                castle(piece, rook, newRank, newFile);
+                King king = (King) piece;
+                int rookFile = model.isCastlingOOMove(king, newRank, newFile) ? 7 : 0;
+                Piece rook = model.pieceAt(king.getRank(), rookFile);
+                castle(king, rook, newRank, newFile);
             } else {
                 view.movePiece(piece, newRank, newFile);
                 game.playMove(piece, newRank, newFile);
