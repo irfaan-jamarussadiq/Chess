@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class GameGUI extends Application {
@@ -40,7 +41,6 @@ public class GameGUI extends Application {
     private static StackPane getMenuBackground() {
         StackPane holder = new StackPane();
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
-
         holder.getChildren().add(canvas);
         holder.setStyle("-fx-background-color: white");
         return holder;
@@ -67,14 +67,7 @@ public class GameGUI extends Application {
         Button settings = getMenuButton("SETTINGS");
         Button about = getMenuButton("ABOUT");
 
-        Pane playPane = getPlayPane();
-        play.setOnAction(e -> play.getScene().setRoot(playPane));
-
-        Pane settingsPane = getSettingsPane();
-        settings.setOnAction(e -> settings.getScene().setRoot(settingsPane));
-
-        Pane aboutPane = getAboutPane();
-        about.setOnAction(e -> about.getScene().setRoot(aboutPane));
+        setMenuActions(play, settings, about);
 
         VBox buttons = new VBox();
         buttons.setSpacing(10);
@@ -82,6 +75,20 @@ public class GameGUI extends Application {
         buttons.setAlignment(Pos.CENTER);
         buttons.setPadding(new Insets(0, 0, -HEIGHT/8, 0));
         return buttons;
+    }
+
+    private static void setMenuActions(Button ... buttons) {
+        Button play = buttons[0];
+        Button settings = buttons[1];
+        Button about = buttons[2];
+
+        Pane playPane = getPlayPane();
+        Pane settingsPane = getSettingsPane();
+        Pane aboutPane = getAboutPane();
+
+        play.setOnAction(e -> play.getScene().setRoot(playPane));
+        settings.setOnAction(e -> settings.getScene().setRoot(settingsPane));
+        about.setOnAction(e -> about.getScene().setRoot(aboutPane));
     }
 
     private static Button getMenuButton(String name) {
@@ -99,7 +106,8 @@ public class GameGUI extends Application {
             "-fx-background-radius: 8,7,6;" +
             "-fx-background-insets: 0,1,2;" +
             "-fx-text-fill: black;" +
-            "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0.0, 0, 1);";
+            "-fx-effect:" + 
+                "dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0.0, 0, 1);";
 
         button.setStyle(buttonStyle);
         return button;
@@ -122,7 +130,6 @@ public class GameGUI extends Application {
         back.setPrefWidth(100);
         back.setPrefHeight(50);
         
-        // menu is somehow null?
         back.setOnAction(e -> back.getScene().setRoot(getMenuPane()));
         
         root.getChildren().add(back);
@@ -134,14 +141,25 @@ public class GameGUI extends Application {
     private static Pane getAboutPane() {
         Pane root = new Pane();
         Button back = new Button("Back");
-        back.setPrefWidth(100);
-        back.setPrefHeight(50);
-        
-        // menu is somehow null?
+        back.setStyle( "-fx-font-size:12;");
+        back.setPrefWidth(50);
+        back.setPrefHeight(25);
         back.setOnAction(e -> back.getScene().setRoot(getMenuPane()));
-        
-        root.getChildren().add(back);
 
+        Text description = new Text();
+        String label = 
+            "This is a human versus human player chess program.\n" +
+            "It was made in Java FX by Irfaan Jamarussadiq.";
+
+        description.setText(label);
+        description.setWrappingWidth(WIDTH);
+        description.setTextAlignment(TextAlignment.CENTER);
+        description.setStyle("-fx-font-size:20;");
+
+        VBox layout = new VBox();
+        layout.getChildren().addAll(back, description);
+        layout.setPadding(new Insets(20, 0, 20, 0));
+        root.getChildren().add(layout);
         return root;
     }
     
