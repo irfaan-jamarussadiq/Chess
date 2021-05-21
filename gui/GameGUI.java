@@ -20,17 +20,21 @@ public class GameGUI extends Application {
 
     @Override
     public void start(Stage window) throws Exception {
+        Scene menu = new Scene(getMenuPane(), WIDTH, HEIGHT);
+        window.setScene(menu);
+        window.setTitle("Chess Program");
+        window.show();
+    }
+
+    private static StackPane getMenuPane() {
         StackPane root = new StackPane();
         StackPane background = getMenuBackground();
-        VBox menu = getMenu(window);
+        VBox menu = getMenu();
 
         root.getChildren().add(background);
         root.getChildren().add(menu);
 
-        Scene scene = new Scene(root, WIDTH, HEIGHT);
-        window.setScene(scene);
-        window.setTitle("Chess Program");
-        window.show();
+        return root;
     }
 
     private static StackPane getMenuBackground() {
@@ -42,10 +46,10 @@ public class GameGUI extends Application {
         return holder;
     }
 
-    private static VBox getMenu(Stage window) {
+    private static VBox getMenu() {
         VBox menu = new VBox();
         menu.getChildren().add(getTitle());
-        menu.getChildren().add(getMenuButtons(window));
+        menu.getChildren().add(getMenuButtons());
         menu.setAlignment(Pos.BASELINE_CENTER);
         menu.setPadding(new Insets(HEIGHT/8, 0, 0, 0));
         return menu;
@@ -58,18 +62,19 @@ public class GameGUI extends Application {
         return text;
     }
 
-    private static VBox getMenuButtons(Stage window) {
+    private static VBox getMenuButtons() {
         Button play = getMenuButton("PLAY");
         Button settings = getMenuButton("SETTINGS");
         Button about = getMenuButton("ABOUT");
 
-        play.setOnAction(e -> window.setScene(getGameScene()));
+        Pane playPane = getPlayPane();
+        play.setOnAction(e -> play.getScene().setRoot(playPane));
 
-        Scene menuScene = window.getScene();
-        Scene settingsScene = getSettingsScene(window, menuScene);
-        settings.setOnAction(e -> window.setScene(settingsScene));
-        
-        about.setOnAction(e -> window.setScene(getAboutScene()));
+        Pane settingsPane = getSettingsPane();
+        settings.setOnAction(e -> settings.getScene().setRoot(settingsPane));
+
+        Pane aboutPane = getAboutPane();
+        about.setOnAction(e -> about.getScene().setRoot(aboutPane));
 
         VBox buttons = new VBox();
         buttons.setSpacing(10);
@@ -94,43 +99,50 @@ public class GameGUI extends Application {
             "-fx-background-radius: 8,7,6;" +
             "-fx-background-insets: 0,1,2;" +
             "-fx-text-fill: black;" +
-            "-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );";
+            "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0.0, 0, 1);";
 
         button.setStyle(buttonStyle);
         return button;
     }
 
-    private static Scene getGameScene() {
+    private static Pane getPlayPane() {
         BoardController controller = new BoardController();
     
         Pane root = new Pane();
         root.getChildren().add(controller.getView());
         root.addEventHandler(MouseEvent.MOUSE_CLICKED, controller);
 
-        Scene scene = new Scene(root, WIDTH, HEIGHT);
-        return scene;
+        return root;
     }
 
     // TODO: Implement settings scene
-    private static Scene getSettingsScene(Stage window, Scene menu) {
+    private static Pane getSettingsPane() {
         Pane root = new Pane();
         Button back = new Button("Back");
         back.setPrefWidth(100);
         back.setPrefHeight(50);
         
-        back.setOnAction(e -> window.setScene(menu));
+        // menu is somehow null?
+        back.setOnAction(e -> back.getScene().setRoot(getMenuPane()));
         
         root.getChildren().add(back);
 
-        Scene scene = new Scene(root, WIDTH, HEIGHT);
-        return scene;
+        return root;
     }
 
     // TODO: Implement about scene
-    private static Scene getAboutScene() {
+    private static Pane getAboutPane() {
         Pane root = new Pane();
-        Scene scene = new Scene(root, WIDTH, HEIGHT);
-        return scene;
+        Button back = new Button("Back");
+        back.setPrefWidth(100);
+        back.setPrefHeight(50);
+        
+        // menu is somehow null?
+        back.setOnAction(e -> back.getScene().setRoot(getMenuPane()));
+        
+        root.getChildren().add(back);
+
+        return root;
     }
     
     
