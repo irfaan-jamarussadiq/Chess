@@ -7,7 +7,10 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -143,14 +146,29 @@ public class GameGUI extends Application {
         back.setPrefWidth(75);
         back.setPrefHeight(25);
         back.setTranslateX(20);
+        back.setTranslateY(20);
+
+        // why is this not working now?
         back.setOnAction(e -> back.getScene().setRoot(getMenuPane()));
+
+        Label darkLabel = new Label("Dark Color: ");
+        Label lightLabel = new Label("Light Color: ");
+        darkLabel.setStyle("-fx-font-size:20;");
+        lightLabel.setStyle("-fx-font-size:20;");
+
+        ColorPicker light = new ColorPicker();
+        ColorPicker dark = new ColorPicker();
+
+        VBox colors = new VBox();
+        colors.setSpacing(20);
+        colors.setPadding(new Insets(70, 50, 50, 60));
+        colors.getChildren().addAll(darkLabel, light, lightLabel, dark);
         
-        root.getChildren().add(back);
+        root.getChildren().addAll(back, colors);
 
         return root;
     }
 
-    // TODO: Implement about scene
     private static Pane getAboutPane() {
         Pane root = new Pane();
         Button back = new Button("Back");
