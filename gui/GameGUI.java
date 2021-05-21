@@ -127,9 +127,22 @@ public class GameGUI extends Application {
     private static Pane getSettingsPane() {
         Pane root = new Pane();
         Button back = new Button("Back");
-        back.setPrefWidth(100);
-        back.setPrefHeight(50);
-        
+        back.setStyle( 
+            "-fx-font-size:15;" +
+            "-fx-background-radius: 15px;" +
+            "-fx-background-color:" +
+                "linear-gradient(#f2f2f2, #d6d6d6)," +
+                "linear-gradient(#fcfcfc 0%, #d9d9d9 20%, #d6d6d6 100%)," +
+                "linear-gradient(#dddddd 0%, #f6f6f6 50%);" +
+            "-fx-background-radius: 8,7,6;" +
+            "-fx-background-insets: 0,1,2;" +
+            "-fx-text-fill: black;" +
+            "-fx-effect:" + 
+                "dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0.0, 0, 1);"
+        );
+        back.setPrefWidth(75);
+        back.setPrefHeight(25);
+        back.setTranslateX(20);
         back.setOnAction(e -> back.getScene().setRoot(getMenuPane()));
         
         root.getChildren().add(back);
@@ -141,9 +154,22 @@ public class GameGUI extends Application {
     private static Pane getAboutPane() {
         Pane root = new Pane();
         Button back = new Button("Back");
-        back.setStyle( "-fx-font-size:12;");
-        back.setPrefWidth(50);
+        back.setStyle(
+            "-fx-font-size:15;" +
+            "-fx-background-radius: 15px;" +
+            "-fx-background-color:" +
+                "linear-gradient(#f2f2f2, #d6d6d6)," +
+                "linear-gradient(#fcfcfc 0%, #d9d9d9 20%, #d6d6d6 100%)," +
+                "linear-gradient(#dddddd 0%, #f6f6f6 50%);" +
+            "-fx-background-radius: 8,7,6;" +
+            "-fx-background-insets: 0,1,2;" +
+            "-fx-text-fill: black;" +
+            "-fx-effect:" + 
+                "dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0.0, 0, 1);"
+        );
+        back.setPrefWidth(75);
         back.setPrefHeight(25);
+        back.setTranslateX(20);
         back.setOnAction(e -> back.getScene().setRoot(getMenuPane()));
 
         Text description = new Text();
