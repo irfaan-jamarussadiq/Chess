@@ -2,15 +2,16 @@ package gui;
 
 import board.BoardController;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -24,77 +25,40 @@ public class GameGUI extends Application {
 
     @Override
     public void start(Stage window) throws Exception {
-        Scene menu = new Scene(getMenuPane(), WIDTH, HEIGHT);
-        window.setScene(menu);
+        StackPane root = new StackPane();        
+        root.setStyle("-fx-background-color: white");
+    
+        VBox menu = createMenuScreen();
+        root.getChildren().add(menu);       
+
+        Scene menuScreen = new Scene(root, WIDTH, HEIGHT);
+        window.setScene(menuScreen);
         window.setTitle("Chess Program");
         window.show();
     }
 
-    private static StackPane getMenuPane() {
-        StackPane root = new StackPane();
-        StackPane background = getMenuBackground();
-        VBox menu = getMenu();
-
-        root.getChildren().add(background);
-        root.getChildren().add(menu);
-
-        return root;
-    }
-
-    private static StackPane getMenuBackground() {
-        StackPane holder = new StackPane();
-        Canvas canvas = new Canvas(WIDTH, HEIGHT);
-        holder.getChildren().add(canvas);
-        holder.setStyle("-fx-background-color: white");
-        return holder;
-    }
-
-    private static VBox getMenu() {
+    private VBox createMenuScreen() {
         VBox menu = new VBox();
-        menu.getChildren().add(getTitle());
-        menu.getChildren().add(getMenuButtons());
-        menu.setAlignment(Pos.BASELINE_CENTER);
-        menu.setPadding(new Insets(HEIGHT/8, 0, 0, 0));
+
+        // Create menu title and add it to the menu container.
+        Text menuTitle = new Text();      
+        menuTitle.setText("Chess");
+        menuTitle.setStyle("-fx-font-size:60; ");
+        menu.getChildren().add(menuTitle);
+
+        // Create menu buttons.
+        Button play = createMenuButton("PLAY");
+        Button settings = createMenuButton("SETTINGS");
+        Button about = createMenuButton("ABOUT");
+
+        menu.setSpacing(10);
+        menu.getChildren().addAll(play, settings, about);
+        menu.setAlignment(Pos.CENTER);
+        menu.setPadding(new Insets(0, 0, -HEIGHT/8, 0));
         return menu;
     }
 
-    private static Text getTitle() {
-        Text text = new Text();      
-        text.setText("Chess");
-        text.setStyle("-fx-font-size:60;");
-        return text;
-    }
-
-    private static VBox getMenuButtons() {
-        Button play = getMenuButton("PLAY");
-        Button settings = getMenuButton("SETTINGS");
-        Button about = getMenuButton("ABOUT");
-
-        setMenuActions(play, settings, about);
-
-        VBox buttons = new VBox();
-        buttons.setSpacing(10);
-        buttons.getChildren().addAll(play, settings, about);
-        buttons.setAlignment(Pos.CENTER);
-        buttons.setPadding(new Insets(0, 0, -HEIGHT/8, 0));
-        return buttons;
-    }
-
-    private static void setMenuActions(Button ... buttons) {
-        Button play = buttons[0];
-        Button settings = buttons[1];
-        Button about = buttons[2];
-
-        Pane playPane = getPlayPane();
-        Pane settingsPane = getSettingsPane();
-        Pane aboutPane = getAboutPane();
-
-        play.setOnAction(e -> play.getScene().setRoot(playPane));
-        settings.setOnAction(e -> settings.getScene().setRoot(settingsPane));
-        about.setOnAction(e -> about.getScene().setRoot(aboutPane));
-    }
-
-    private static Button getMenuButton(String name) {
+    private Button createMenuButton(String name) {
         Button button = new Button(name);
         button.setPrefWidth(WIDTH/2);
         button.setPrefHeight(HEIGHT/10);
@@ -113,22 +77,64 @@ public class GameGUI extends Application {
                 "dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0.0, 0, 1);";
 
         button.setStyle(buttonStyle);
+
+        // Change screen appropriately when button is clicked
+        if (name == "PLAY") {
+            Pane boardPane = createBoardScreen();
+            button.setOnAction(e -> button.getScene().setRoot(boardPane));
+        } else if (name == "SETTINGS") {
+            Pane settingsPane = createSettingsScreen();
+            button.setOnAction(e -> button.getScene().setRoot(settingsPane));
+        } else if (name == "ABOUT") {
+            Pane aboutPane = createAboutScreen();
+            button.setOnAction(e -> button.getScene().setRoot(aboutPane));
+        }
+
         return button;
     }
 
-    private static Pane getPlayPane() {
-        BoardController controller = new BoardController();
-    
+    private Pane createBoardScreen() {
         Pane root = new Pane();
+        BoardController controller = new BoardController();
         root.getChildren().add(controller.getView());
         root.addEventHandler(MouseEvent.MOUSE_CLICKED, controller);
-
-        return root;
+        return root;        
     }
 
     // TODO: Implement settings scene
-    private static Pane getSettingsPane() {
+    private Pane createSettingsScreen() {
         Pane root = new Pane();
+
+        // Make back button to main menu.
+        Button back = createBackButton();
+        // When back button is clicked, return to the screen specified by root.
+        back.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent arg0) {
+                back.getScene().setRoot(createMenuScreen());             
+            }
+        });        
+
+        // Create light and dark squares color selection for chessboard.
+        Label darkLabel = new Label("Dark Color: ");
+        Label lightLabel = new Label("Light Color: ");
+        darkLabel.setStyle("-fx-font-size:20;");
+        lightLabel.setStyle("-fx-font-size:20;");
+
+        // TODO: Consider making a custom class for color swatch list
+        ColorPicker light = new ColorPicker();
+        ColorPicker dark = new ColorPicker();
+
+        VBox colors = new VBox();
+        colors.setSpacing(20);
+        colors.setPadding(new Insets(70, 50, 50, 60));
+        colors.getChildren().addAll(darkLabel, light, lightLabel, dark);
+
+        root.getChildren().addAll(colors, back);        
+        return root;
+    }
+
+    private Button createBackButton() {
         Button back = new Button("Back");
         back.setStyle( 
             "-fx-font-size:15;" +
@@ -142,71 +148,41 @@ public class GameGUI extends Application {
             "-fx-text-fill: black;" +
             "-fx-effect:" + 
                 "dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0.0, 0, 1);"
-        );
+        );        
         back.setPrefWidth(75);
         back.setPrefHeight(25);
         back.setTranslateX(20);
-        back.setTranslateY(20);
-
-        // why is this not working now?
-        back.setOnAction(e -> back.getScene().setRoot(getMenuPane()));
-
-        Label darkLabel = new Label("Dark Color: ");
-        Label lightLabel = new Label("Light Color: ");
-        darkLabel.setStyle("-fx-font-size:20;");
-        lightLabel.setStyle("-fx-font-size:20;");
-
-        ColorPicker light = new ColorPicker();
-        ColorPicker dark = new ColorPicker();
-
-        VBox colors = new VBox();
-        colors.setSpacing(20);
-        colors.setPadding(new Insets(70, 50, 50, 60));
-        colors.getChildren().addAll(darkLabel, light, lightLabel, dark);
-        
-        root.getChildren().addAll(back, colors);
-
-        return root;
+        back.setTranslateY(20);        
+               
+        return back;
     }
 
-    private static Pane getAboutPane() {
+    private Pane createAboutScreen() {
         Pane root = new Pane();
-        Button back = new Button("Back");
-        back.setStyle(
-            "-fx-font-size:15;" +
-            "-fx-background-radius: 15px;" +
-            "-fx-background-color:" +
-                "linear-gradient(#f2f2f2, #d6d6d6)," +
-                "linear-gradient(#fcfcfc 0%, #d9d9d9 20%, #d6d6d6 100%)," +
-                "linear-gradient(#dddddd 0%, #f6f6f6 50%);" +
-            "-fx-background-radius: 8,7,6;" +
-            "-fx-background-insets: 0,1,2;" +
-            "-fx-text-fill: black;" +
-            "-fx-effect:" + 
-                "dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0.0, 0, 1);"
-        );
-        back.setPrefWidth(75);
-        back.setPrefHeight(25);
-        back.setTranslateX(20);
-        back.setOnAction(e -> back.getScene().setRoot(getMenuPane()));
+        Button back = createBackButton();
+        // When back button is clicked, return to the screen specified by root.
+        back.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent arg0) {
+                back.getScene().setRoot(createMenuScreen());             
+            }
+        });         
 
-        Text description = new Text();
+        // Insert program description and author.
+        Text description = new Text();        
         String label = 
-            "This is a human versus human player chess program.\n" +
-            "It was made in Java FX by Irfaan Jamarussadiq.";
+            "Human vs. human chess program.\n" +
+            "Made by Irfaan Jamarussadiq, © 2021";
 
         description.setText(label);
         description.setWrappingWidth(WIDTH);
         description.setTextAlignment(TextAlignment.CENTER);
+        description.setTextOrigin(VPos.TOP);
         description.setStyle("-fx-font-size:20;");
 
-        VBox layout = new VBox();
-        layout.getChildren().addAll(back, description);
-        layout.setPadding(new Insets(20, 0, 20, 0));
-        root.getChildren().add(layout);
-        return root;
+        root.getChildren().addAll(description, back);        
+        return root;        
     }
-    
     
     public static void main(String[] args) {
 		launch(args);

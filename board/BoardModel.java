@@ -296,12 +296,18 @@ public class BoardModel {
         return result.toString();
     }
 
+    // Returns the letter a piece is represented by in algebraic chess notation.
     private char pieceToLetter(Piece piece) {
+        // Get the first letter of the piece's class name
         char letter = piece.getClass().getSimpleName().charAt(0);
+
+        // A Knight's letter in algebraic chess notation is 'N', not 'K',
+        // because King already uses 'K'.
         if (piece instanceof Knight) {
             letter = 'N';
         }
 
+        // Lowercase letters are for white pieces, and uppercase for black.
         if (piece.getPlayer() == WHITE) {
             letter = Character.toLowerCase(letter);
         }

@@ -10,13 +10,9 @@ public abstract class Piece {
     protected Player player;
 
     public Piece(int rank, int file, Player player) {
-        validateRank(rank);
-        validateFile(file);
-        validatePlayer(player);
-
-        this.rank = rank;
-        this.file = file;
-        this.player = player;
+        setRank(rank);
+        setFile(file);
+        setPlayer(player);
     }
 
     public int getRank() {
@@ -31,32 +27,28 @@ public abstract class Piece {
         return player;
     }
 
-    private void validateFile(int file) {
-        if (file < 0 || file >= BoardModel.SIZE) {
-            throw new IllegalPieceException("Invalid file: " + file);
-        }
-    }
-    
-    private void validateRank(int rank) {
+	public void setRank(int newRank) {
         if (rank < 0 || rank >= BoardModel.SIZE) {
             throw new IllegalPieceException("Invalid rank: " + rank);
         }
-    }
 
-    private void validatePlayer(Player player) {
-        if (getClass() != Empty.class && player == Player.UNDEFINED) {
-            throw new IllegalPieceException("Invalid piece: " + player.name());
-        }
-    }
-
-	public void setRank(int newRank) {
-        validateRank(newRank);
-        rank = newRank;
+        this.rank = newRank;
     }
 
 	public void setFile(int newFile) {
-        validateFile(newFile);
-        file = newFile;
+        if (file < 0 || file >= BoardModel.SIZE) {
+            throw new IllegalPieceException("Invalid file: " + file);
+        }
+
+        this.file = newFile;
+    }
+
+    private void setPlayer(Player player) {
+        if (getClass() != Empty.class && player == Player.UNDEFINED) {
+            throw new IllegalPieceException("Invalid piece: " + player.name());
+        }
+
+        this.player = player;
     }
 
     @Override
@@ -68,8 +60,7 @@ public abstract class Piece {
 
     /*
         Validates whether a move to the square specified by newRank and
-        newFile is valid according to how the piece moves. This method 
-        does not look at the board position.
+        newFile is valid according to how the piece moves.
     */
     public abstract boolean isValidMove(int newRank, int newFile);
     public abstract ArrayList<Move> getMoveList(BoardModel model);
