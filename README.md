@@ -3,7 +3,7 @@
 
 A human vs human player chess program written in Java and JavaFX. Features a graphical user interface (GUI) for playing moves.
 
-## User Features
+## Features
 1. Highlighting piece moves when piece is clicked
 2. Highlighting king when in check/checkmate
 3. Check detection
