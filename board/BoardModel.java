@@ -11,8 +11,36 @@ public class BoardModel {
     private Piece[][] board;
 
     public BoardModel() {
+	if (SIZE < 8) {
+		throw new IllegalStateException();
+	}
+
         board = new Piece[SIZE][SIZE];
-        setUp();
+
+	int start = SIZE / 2 - 4;
+	int end = SIZE / 2 + 4;
+
+	// Add pawns
+	for (int file = start; file < end; file++) {
+		board[start + 1][file] = new Pawn(start + 1, file, WHITE); 		
+		board[end - 1][file] = new Pawn(end - 1, file, BLACK); 		
+	}
+
+	setUpPieces(WHITE);
+	setUpPieces(BLACK);
+					
+    }
+
+    private void setUpPieces(Player player) {
+	int rank = (player == WHITE) ? 1 : 6; 
+        addPiece(new Rook(rank, 0, player));
+        addPiece(new Knight(rank, 1, player));
+        addPiece(new Bishop(rank, 2, player));
+        addPiece(new Queen(rank, 3, player));
+        addPiece(new King(rank, 4, player));
+        addPiece(new Bishop(rank, 5, player));
+        addPiece(new Knight(rank, 6, player));
+        addPiece(new Rook(rank, 7, player));
     }
 
     public void movePieceIfValid(Piece piece, int newRank, int newFile) {
@@ -147,41 +175,7 @@ public class BoardModel {
         board[rank][file] = new Empty(rank, file, UNDEFINED);
     }
 
-    public void setUp() {
-        setUpPieces(0);
-        setUpPawns(1);
-        clearRanks(2, 5);
-        setUpPawns(6);
-        setUpPieces(7);
-    }
-
-    private void setUpPieces(int rank) {
-        Player player = (rank == 0) ? BLACK : WHITE;
-        addPiece(new Rook(rank, 0, player));
-        addPiece(new Knight(rank, 1, player));
-        addPiece(new Bishop(rank, 2, player));
-        addPiece(new Queen(rank, 3, player));
-        addPiece(new King(rank, 4, player));
-        addPiece(new Bishop(rank, 5, player));
-        addPiece(new Knight(rank, 6, player));
-        addPiece(new Rook(rank, 7, player));
-    }
-
-    private void setUpPawns(int rank) {
-        Player player = (rank == 1) ? BLACK : WHITE;
-        for (int file = 0; file < SIZE; file++) {
-            addPiece(new Pawn(rank, file, player));
-        }
-    }
-
-    private void clearRanks(int startRank, int endRank) {
-        for (int rank = startRank; rank <= endRank; rank++) {
-            for (int file = 0; file < SIZE; file++) {
-                removePiece(rank, file);
-            }
-        }
-    }
-    
+   
     public King findKing(Player player) {
         for (Piece[] row : board) {
             for (Piece piece : row) {
@@ -319,3 +313,4 @@ public class BoardModel {
         return letter;
     }
 }
+
