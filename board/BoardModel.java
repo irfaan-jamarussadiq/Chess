@@ -1,10 +1,5 @@
 package board;
 
-import pieces.*;
-import static pieces.Player.*;
-
-import java.util.ArrayList;
-
 public class BoardModel {
     
     public static final int SIZE = 8;
@@ -20,27 +15,18 @@ public class BoardModel {
 	int start = SIZE / 2 - 4;
 	int end = SIZE / 2 + 4;
 
-	// Add pawns
+	PieceType[] pieceRow = { 
+		PieceType.ROOK, PieceType.KNIGHT, PieceType.BISHOP, 
+		PieceType.QUEEN, PieceType.KING,
+		PieceType.ROOK, PieceType.KNIGHT, PieceType.BISHOP 
+	};
+
 	for (int file = start; file < end; file++) {
-		board[start + 1][file] = new Pawn(start + 1, file, WHITE); 		
-		board[end - 1][file] = new Pawn(end - 1, file, BLACK); 		
+		board[start + 1][file] = new Piece(PieceType.PAWN, PieceColor.WHITE); 		
+		board[end - 1][file] = new Piece(PieceType.PAWN, PieceColor.BLACK); 		
+		board[start][file] = new Piece(pieceRow[file], PieceColor.WHITE);
+		board[end][file] = new Piece(pieceRow[file], PieceColor.BLACK);
 	}
-
-	setUpPieces(WHITE);
-	setUpPieces(BLACK);
-					
-    }
-
-    private void setUpPieces(Player player) {
-	int rank = (player == WHITE) ? 1 : 6; 
-        addPiece(new Rook(rank, 0, player));
-        addPiece(new Knight(rank, 1, player));
-        addPiece(new Bishop(rank, 2, player));
-        addPiece(new Queen(rank, 3, player));
-        addPiece(new King(rank, 4, player));
-        addPiece(new Bishop(rank, 5, player));
-        addPiece(new Knight(rank, 6, player));
-        addPiece(new Rook(rank, 7, player));
     }
 
     public void movePieceIfValid(Piece piece, int newRank, int newFile) {
