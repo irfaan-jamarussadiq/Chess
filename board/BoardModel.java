@@ -153,11 +153,11 @@ public class BoardModel {
         return rankInBoard && fileInBoard;
     }
 
-    public void addPiece(Piece piece) {
+    void addPiece(Piece piece) {
         board[piece.getRank()][piece.getFile()] = piece;
     }
 
-    public void removePiece(int rank, int file) {
+    void removePiece(int rank, int file) {
         board[rank][file] = new Empty(rank, file, UNDEFINED);
     }
 
