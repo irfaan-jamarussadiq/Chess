@@ -8,14 +8,22 @@ public class BoardModel {
 
 	public static final int SIZE = 8;
 	private Piece[][] board;
+	private MoveValidator validator;
+	private MoveExecutor executor;
 
 	public BoardModel() {
 		if (SIZE < 8) {
 			throw new IllegalStateException();
 		}
 
-		board = new Piece[SIZE][SIZE];
+		validator = new MoveValidator(this);
+		executor = new MoveExecutor(this);
 
+		board = new Piece[SIZE][SIZE];
+		setUpStartingPosition();
+	}
+
+	private void setUpStartingPosition() {
 		int start = SIZE / 2 - 4;
 		int end = SIZE / 2 + 4;
 
@@ -39,8 +47,6 @@ public class BoardModel {
 
 	public void movePiece(int startRank, int startFile, int endRank, int endFile) {
 		Move move = new Move(startRank, startFile, endRank, endFile);
-		MoveValidator validator = new MoveValidator(this, move);
-		MoveExecutor executor = new MoveExecutor(this, move);
 		if (validator.isNormalMove(move)) {
 			executor.makeNormalMove(move);
 		} else if (validator.isCaptureMove(move)) {

@@ -4,11 +4,9 @@ import pieces.Piece;
 
 class MoveValidator {
 	private BoardModel board;
-	private Move move;
 
-	MoveValidator(BoardModel board, Move move) {
+	MoveValidator(BoardModel board) {
 		this.board = board;
-		this.move = move;
 	}
 
 	boolean isNormalMove(Move move) {

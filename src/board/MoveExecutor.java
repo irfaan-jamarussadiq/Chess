@@ -4,11 +4,9 @@ import pieces.Piece;
 
 class MoveExecutor {
 	private BoardModel board;
-	private Move move;
 
-	MoveExecutor(BoardModel board, Move move) {
+	MoveExecutor(BoardModel board) {
 		this.board = board;
-		this.move = move;
 	}
 
 	void makeNormalMove(Move move) {
