@@ -1,8 +1,12 @@
+package board;
+
+import pieces.Piece;
+
 class MoveExecutor {
-	private Board board;
+	private BoardModel board;
 	private Move move;
 
-	MoveExecutor(Board board, Move move) {
+	MoveExecutor(BoardModel board, Move move) {
 		this.board = board;
 		this.move = move;
 	}
@@ -10,13 +14,13 @@ class MoveExecutor {
 	void makeNormalMove(Move move) {
 		Piece piece = board.pieceAt(move.getStartRank(), move.getStartFile());
 		board.removePiece(move.getStartRank(), move.getStartFile());
-		board.addPiece(move.getEndRank(), move.getEndFile(), piece);
+		board.addPiece(piece, move.getEndRank(), move.getEndFile());
 	} 
 
 
 	void makeCaptureMove(Move move) {
 		Piece piece = board.pieceAt(move.getStartRank(), move.getStartFile());
 		board.removePiece(move.getStartRank(), move.getStartFile());
-		board.addPiece(move.getEndRank(), move.getEndFile(), piece);
+		board.addPiece(piece, move.getEndRank(), move.getEndFile());
 	}
 }
