@@ -1,3 +1,5 @@
+package move;
+
 class NormalMove extends Move {
 	boolean isValid(Board board) {
 		Piece pieceToMove = board.pieceAt(startRank, startFile); 

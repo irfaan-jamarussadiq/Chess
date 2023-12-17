@@ -1,4 +1,4 @@
-package board;
+package move;
 
 class MoveOutsideBoardException extends IllegalArgumentException {
 	private int startRank, startFile, endRank, endFile;

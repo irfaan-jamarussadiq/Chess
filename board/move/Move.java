@@ -1,4 +1,4 @@
-package board;
+package move;
 
 abstract class Move {
 	private int startRank, startFile, endRank, endFile;
