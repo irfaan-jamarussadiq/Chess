@@ -1,12 +1,16 @@
 package pieces;
 
-class Piece {
+public class Piece {
 	private PieceType type;
 	private PieceColor color;
 
 	public Piece(PieceType type, PieceColor color) {
 		this.type = type;
 		this.color = color;
+	}
+
+	public boolean isEnemyOf(Piece piece) {
+		return piece != null && color != piece.color;
 	}
 
 	public char getBoardCharacter() {
