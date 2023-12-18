@@ -1,25 +1,14 @@
 🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿
 # Chess ♞
 
-A human vs human player chess program written in Java and JavaFX. Features a graphical user interface (GUI) for playing moves.
-
-## Features
-1. Highlighting piece moves when piece is clicked
-2. Highlighting king when in check/checkmate
-3. Check detection
-4. Castling
-5. Pawn promotion to queen
+This project implements a graphical user interface for playing a game of chess using object-oriented principles and design patterns.
 
 ## Program Design
-1. Object Oriented Design of pieces. 
-    - Used inheritance for pieces (classes for knights, bishops, etc extend from a Piece class)
-2. MVC architecture for chessboard (BoardModel, BoardView, BoardController)
-    - BoardModel tracks the locations of all board pieces.
-    - BoardView tracks the locations of all image representations of the board pieces.
-    - BoardController communicates between the model and view and ties them together.
-3. JUnit Testing using inner classes approach
-    - Individual tests aim to be as small as possible.
-    - Inner classes are used to group elements of testing.
+1. Pieces
+2. Board
+3. Making Moves
+4. Validating Moves
+5. Detecting Check, Checkmate, and Stalemate
 
 ## GUI Examples
 | Normal Position | Castling Moves | Check | Checkmate |
