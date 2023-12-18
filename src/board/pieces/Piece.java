@@ -15,6 +15,14 @@ public class Piece {
 		return piece != null && color != piece.color;
 	}
 
+	public PieceType getType() {
+		return type;
+	}
+
+	public PieceColor getColor() {
+		return color;
+	}
+
 	public char getBoardCharacter() {
 		char character = ' ';
 		switch(type) {
