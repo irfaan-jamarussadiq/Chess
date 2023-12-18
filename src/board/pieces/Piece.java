@@ -1,5 +1,7 @@
 package pieces;
 
+import java.util.Objects;
+
 public class Piece {
 	private PieceType type;
 	private PieceColor color;
@@ -40,4 +42,25 @@ public class Piece {
 		
 		return (color == PieceColor.WHITE) ? character : Character.toUpperCase(character);
 	}		
+
+	@Override
+	public boolean equals(Object other) {
+		if (other == null || other.getClass() != Piece.class) {
+			return false;
+		}
+
+		Piece otherPiece = (Piece) other;
+		return type == otherPiece.type && color == otherPiece.color;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(type, color);
+	}
+
+	@Override
+	public String toString() {
+		return type + " " + color; 
+	}
+		
 }
