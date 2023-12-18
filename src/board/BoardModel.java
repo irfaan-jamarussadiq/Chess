@@ -24,7 +24,7 @@ public class BoardModel {
 	}
 
 	private void setUpStartingPosition() {
-		int start = SIZE / 2 - 4;
+		int start = SIZE / 2 - 3;
 		int end = SIZE / 2 + 4;
 
 		PieceType[] pieceRow = { 
@@ -33,12 +33,13 @@ public class BoardModel {
 			PieceType.ROOK, PieceType.KNIGHT, PieceType.BISHOP 
 		};
 
-		for (int file = start; file < end; file++) {
-			board[start + 1][file] = new Piece(PieceType.PAWN, PieceColor.WHITE); 		
-			board[end - 1][file] = new Piece(PieceType.PAWN, PieceColor.BLACK); 		
-			board[start][file] = new Piece(pieceRow[file], PieceColor.WHITE);
-			board[end][file] = new Piece(pieceRow[file], PieceColor.BLACK);
+		for (int file = start; file <= end; file++) {
+			addPiece(new Piece(PieceType.PAWN, PieceColor.WHITE), start + 1, file);
+			addPiece(new Piece(PieceType.PAWN, PieceColor.BLACK), end - 1, file);
+			addPiece(new Piece(pieceRow[file - 1], PieceColor.WHITE), start, file);
+			addPiece(new Piece(pieceRow[file - 1], PieceColor.BLACK), end, file);
 		}
+		
 	}
 
 	public Piece pieceAt(int rank, int file) {
