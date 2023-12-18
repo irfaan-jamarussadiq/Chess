@@ -8,16 +8,11 @@ public class BoardModel {
 
 	public static final int SIZE = 8;
 	private Piece[][] board;
-	private MoveValidator validator;
-	private MoveExecutor executor;
 
 	public BoardModel() {
 		if (SIZE < 8) {
 			throw new IllegalStateException();
 		}
-
-		validator = new MoveValidator(this);
-		executor = new MoveExecutor(this);
 
 		board = new Piece[SIZE][SIZE];
 		setUpStartingPosition();
