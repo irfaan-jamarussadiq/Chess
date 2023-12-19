@@ -1,8 +1,15 @@
 package board;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import pieces.Piece;
 import pieces.PieceType;
 import pieces.PieceColor;
+import pieces.MoveGenerator;
+import pieces.RookMoveGenerator;
+import pieces.BishopMoveGenerator;
+import pieces.KnightMoveGenerator;
 
 public class BoardModel {
 
@@ -53,6 +60,19 @@ public class BoardModel {
 	}
 
 	boolean squareIsAttacked(int rank, int file, PieceColor color) {
-		throw new UnsupportedOperationException();
+		List<Move> attackingMoves = new ArrayList<>(BoardModel.SIZE / 2);	
+		attackingMoves.addAll(new KnightMoveGenerator().getMoves(rank, file));
+		attackingMoves.addAll(new RookMoveGenerator(this).getMoves(rank, file));
+		attackingMoves.addAll(new BishopMoveGenerator(this).getMoves(rank, file));
+
+		Piece currentPiece = pieceAt(rank, file);
+		for (Move move : attackingMoves) {
+			Piece potentialEnemy = pieceAt(move.getEndRank(), move.getEndFile());
+			if (potentialEnemy != null && potentialEnemy.isEnemyOf(currentPiece)) {
+				return true;
+			}
+		}	
+
+		return false;
 	}	
 }

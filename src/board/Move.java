@@ -1,9 +1,9 @@
 package board; 
 
-class Move {
+public class Move {
 	private int startRank, startFile, endRank, endFile;
 
-	Move(int startRank, int startFile, int endRank, int endFile) {
+	public Move(int startRank, int startFile, int endRank, int endFile) {
 		this.startRank = startRank;
 		this.startFile = startFile;
 		this.endRank = endRank;
