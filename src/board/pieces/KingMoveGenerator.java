@@ -8,16 +8,9 @@ import board.Move;
 import board.Player;
 import pieces.Piece;
 
-class KingMoveGenerator implements MoveGenerator {
-
-	private BoardModel board;
-	
-	public KingMoveGenerator(BoardModel board) {
-		board = new BoardModel();
-	}
-
-	public List<Move> getMoves(int rank, int file) {	
-		List<Move> moves = new ArrayList<>();
+public class KingMoveGenerator implements MoveGenerator {
+	public List<Move> generateMoves(BoardModel board, int rank, int file) {	
+		List<Move> moves = new ArrayList<>(8);
 		Piece king = board.pieceAt(rank, file);
 		if (king == null || king.getType() != PieceType.KING) {
 			throw new IllegalArgumentException();
