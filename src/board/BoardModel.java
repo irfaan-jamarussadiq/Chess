@@ -1,15 +1,8 @@
 package board;
 
 import java.util.List;
-import java.util.ArrayList;
 
-import pieces.Piece;
-import pieces.PieceType;
-import pieces.PieceColor;
-import pieces.MoveGenerator;
-import pieces.RookMoveGenerator;
-import pieces.BishopMoveGenerator;
-import pieces.KnightMoveGenerator;
+import pieces.*;
 
 public class BoardModel {
 
@@ -18,7 +11,7 @@ public class BoardModel {
 
 	public BoardModel() {
 		if (SIZE < 8) {
-			throw new IllegalStateException();
+			throw new IllegalStateException("Board cannot be smaller than an 8x8");
 		}
 
 		board = new Piece[SIZE][SIZE];
@@ -29,7 +22,7 @@ public class BoardModel {
 		PieceType[] pieceRow = { 
 			PieceType.ROOK, PieceType.KNIGHT, PieceType.BISHOP, 
 			PieceType.QUEEN, PieceType.KING,
-			PieceType.ROOK, PieceType.KNIGHT, PieceType.BISHOP 
+			PieceType.BISHOP, PieceType.KNIGHT, PieceType.ROOK 
 		};
 
 		for (int file = SIZE / 2 - 3; file <= SIZE / 2 + 4; file++) {
@@ -38,17 +31,15 @@ public class BoardModel {
 			addPiece(new Piece(pieceRow[file - 1], PieceColor.WHITE), 1, file);
 			addPiece(new Piece(pieceRow[file - 1], PieceColor.BLACK), SIZE, file);
 		}
-		
+
 	}
 
 	public Piece pieceAt(int rank, int file) {
 		return board[rank - 1][file - 1];
 	}
 
-	public void movePiece(int startRank, int startFile, int endRank, int endFile) {
-		Move move = new Move(startRank, startFile, endRank, endFile);
-		MoveStrategy strategy = MoveStrategyFactory.createMoveStrategy(this, move);
-		strategy.move(this, move);
+	public void move(MoveStrategy strategy, Move move) {
+		strategy.move(this, move);	
 	}
 
 	void addPiece(Piece piece, int rank, int file) {
@@ -59,20 +50,44 @@ public class BoardModel {
 		board[rank - 1][file - 1] = null;
 	}
 
-	boolean squareIsAttacked(int rank, int file, PieceColor color) {
-		List<Move> attackingMoves = new ArrayList<>(BoardModel.SIZE / 2);	
-		attackingMoves.addAll(new KnightMoveGenerator().getMoves(rank, file));
-		attackingMoves.addAll(new RookMoveGenerator(this).getMoves(rank, file));
-		attackingMoves.addAll(new BishopMoveGenerator(this).getMoves(rank, file));
+	boolean squareIsAttacked(int rank, int file) {
+		Piece piece = this.pieceAt(rank, file);
 
-		Piece currentPiece = pieceAt(rank, file);
-		for (Move move : attackingMoves) {
-			Piece potentialEnemy = pieceAt(move.getEndRank(), move.getEndFile());
-			if (potentialEnemy != null && potentialEnemy.isEnemyOf(currentPiece)) {
+		List<Move> knightMoves = new KnightMoveGenerator().generateCaptures(this, rank, file);
+		for (Move move : knightMoves) {
+			Piece potentialEnemy = this.pieceAt(move.getEndRank(), move.getEndFile());
+			if (piece.isEnemyOf(potentialEnemy)) {
 				return true;
 			}
-		}	
+		}
+
+		List<Move> queenMoves = new QueenMoveGenerator().generateCaptures(this, rank, file);
+		for (Move move : queenMoves) {
+			Piece potentialEnemy = this.pieceAt(move.getEndRank(), move.getEndFile());
+			if (piece.isEnemyOf(potentialEnemy)) {
+				return true;
+			}
+		}
 
 		return false;
-	}	
+	}
+
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		for (int rank = SIZE; rank >= 1; rank--) {
+			for (int file = 1; file <= SIZE; file++) {
+				Piece piece = pieceAt(rank, file);
+				if (piece != null) {
+					sb.append(piece.getBoardCharacter() + " ");
+				} else {
+					sb.append(". ");
+				}	
+			}
+
+			sb.append("\n");
+		}
+
+		return sb.toString();
+	}
 }
