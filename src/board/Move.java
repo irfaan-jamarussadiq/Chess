@@ -1,5 +1,7 @@
 package board; 
 
+import java.util.Objects;
+
 public class Move {
 	private int startRank, startFile, endRank, endFile;
 
@@ -10,20 +12,41 @@ public class Move {
 		this.endFile = endFile;
 	}
 
-	int getStartRank() {
+	public int getStartRank() {
 		return startRank;
 	}
 
-	int getStartFile() {
+	public int getStartFile() {
 		return startFile;
 	}
 
-	int getEndRank() {
+	public int getEndRank() {
 		return endRank;
 	}
 
-	int getEndFile() {
+	public int getEndFile() {
 		return endFile;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("(%d, %d) to (%d, %d)", startRank, startFile, endRank, endFile);
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		if (this == null || other.getClass() != Move.class) {
+			return false;
+		}
+
+		Move otherMove = (Move) other;
+		return startRank == otherMove.startRank && startFile == otherMove.startFile 
+			&& endRank == otherMove.endRank && endFile == otherMove.endFile;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(startRank, startFile, endRank, endFile);
 	}
 
 }
