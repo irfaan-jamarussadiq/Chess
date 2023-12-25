@@ -2,8 +2,11 @@ package board;
 
 import java.util.Objects;
 
+import pieces.Piece;
+
 public class Move {
 	private int startRank, startFile, endRank, endFile;
+	private Piece capturedPiece;
 
 	public Move(int startRank, int startFile, int endRank, int endFile) {
 		this.startRank = startRank;
@@ -26,6 +29,14 @@ public class Move {
 
 	public int getEndFile() {
 		return endFile;
+	}
+
+	public Piece getCapturedPiece() {
+		return capturedPiece;
+	}
+
+	public void setCapturedPiece(Piece piece) {
+		this.capturedPiece = piece;
 	}
 
 	@Override
