@@ -1,30 +1,22 @@
 package board;
 
-import board.BoardModel; 
 import pieces.PieceColor;
 
 public class Player {
-
-	private int kingRank;
-	private int kingFile;
+	private Location kingLocation;
 	private PieceColor color;
-	private boolean kingHasMoved;
 
 	public Player(PieceColor color) {
-		kingRank = (color == PieceColor.WHITE) ? 1 : BoardModel.SIZE;
-		kingFile = 5;
-		kingHasMoved = false;
+		this.color = color;
+		this.kingLocation = new Location(color.getPieceStartingRank(), 5);
 	}
 
-	public int getKingRank() {
-		return kingRank;
+	public Location getKingLocation() {
+		return kingLocation;
 	}
 
-	public int getKingFile() {
-		return kingFile;
+	public PieceColor getColor() {
+		return color;
 	}
 
-	public boolean getKingHasMoved() {
-		return kingHasMoved;
-	}
 }		
