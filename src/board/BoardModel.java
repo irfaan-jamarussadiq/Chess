@@ -43,33 +43,15 @@ public class BoardModel {
 	}
 
 	void addPiece(Piece piece, int rank, int file) {
+		if (piece == null) {
+			throw new IllegalArgumentException("Piece to add cannot be null.");
+		}
+
 		board[rank - 1][file - 1] = piece;
 	}
 
 	void removePiece(int rank, int file) {
 		board[rank - 1][file - 1] = null;
-	}
-
-	boolean squareIsAttacked(int rank, int file) {
-		Piece piece = this.pieceAt(rank, file);
-
-		List<Move> knightMoves = new KnightMoveGenerator().generateCaptures(this, rank, file);
-		for (Move move : knightMoves) {
-			Piece potentialEnemy = this.pieceAt(move.getEndRank(), move.getEndFile());
-			if (piece.isEnemyOf(potentialEnemy)) {
-				return true;
-			}
-		}
-
-		List<Move> queenMoves = new QueenMoveGenerator().generateCaptures(this, rank, file);
-		for (Move move : queenMoves) {
-			Piece potentialEnemy = this.pieceAt(move.getEndRank(), move.getEndFile());
-			if (piece.isEnemyOf(potentialEnemy)) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	@Override
