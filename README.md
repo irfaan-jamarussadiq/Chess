@@ -1,14 +1,15 @@
 🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿
 # Chess ♞
 
-This project implements a graphical user interface for playing a game of chess using object-oriented principles and design patterns.
+This project implements a game of chess using object oriented design principles.
 
 ## Program Design
-1. Pieces
-2. Board
-3. Making Moves
-4. Validating Moves
-5. Detecting Check, Checkmate, and Stalemate
+### Pieces
+A piece only knows its type (knight, bishop, rook, etc.) and color (white or black), and nothing else. PieceType enumerates the available piece types and PieceColor enumerates the possible piece colors.
+### Board
+The Board class is responsible for moving pieces on the chess board, but it is not concerned with move validation or how the piece moves. There are a few complexities with regards to moving pieces, including castling, where more than one piece is moving at once and en passant, where the captured piece is not on the destination square. For these reasons, a MoveStrategy interface defines the contract for moving a piece, and various subclasses implement this interface to define how the move is made.
+### Game
+### Move Validation
 
 ## GUI Examples
 | Normal Position | Castling Moves | Check | Checkmate |
