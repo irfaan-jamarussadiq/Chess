@@ -1,109 +1,122 @@
 package tests;
 
-import static org.junit.Assert.*;
+import pieces.Piece;
+import pieces.PieceType;
+import pieces.PieceColor;
+import board.*;
 
-import org.junit.Test;
-import board.BoardModel;
-import board.Game;
-import board.GameState;
-import pieces.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class GameTests {
-    public static Game game = new Game();
+class GameTest {
 
-    private static void addMovesHelper(int[][] moves) {
-        BoardModel model = game.getModel();
-        for (int[] row : moves) {
-            Piece piece = model.pieceAt(row[2], row[3]);
-            game.addMove(row[0], row[1], piece);
-        }
-    }
+	@Test
+	public void testPawnCanMoveTwoSquaresOnFirstMove() {
+		BoardModel board = new BoardModel();
+		Game game = new Game(board);
+		game.playMove(2, 4, 4, 4);
+		Piece whitePawn = new Piece(PieceType.PAWN, PieceColor.WHITE);
+		assertEquals(whitePawn, board.pieceAt(4, 4)); 
+	}
+	
+	@Test
+	public void testPawnCanMoveOneSquareForward() {
+		BoardModel board = new BoardModel();
+		Game game = new Game(board);
+		game.playMove(2, 4, 3, 4);
+		Piece whitePawn = new Piece(PieceType.PAWN, PieceColor.WHITE);
+		assertEquals(whitePawn, board.pieceAt(3, 4)); 
+	}
 
-    public static class GameValidation {
-        @Test(expected = IllegalPlayerException.class)
-        public void testBlackMovingFirstIsInvalid() {
-            game.reset();
-            int[][] gameMoves = {
-                {3, 4, 1, 4}, 
-                {4, 6, 6, 6},
-                {4, 7, 0, 3},
-            };
-            addMovesHelper(gameMoves);
-        }
+	@Test
+	public void testPawnCannotMoveTwoSquaresAfterFirstMove() {
+		BoardModel board = new BoardModel();
+		Game game = new Game(board);
+		game.playMove(2, 4, 3, 4);
+		game.playMove(7, 4, 6, 4);
+		assertThrows(UnsupportedOperationException.class, () -> game.playMove(3, 4, 5, 4));
+	}
 
-        @Test(expected = IllegalPlayerException.class)
-        public void testWhiteMovingTwiceIsInvalid() {
-            game.reset();
-            int[][] gameMoves = {
-                {5, 5, 6, 5},
-                {4, 6, 6, 6},
-                {4, 7, 0, 3},
-            };
-            addMovesHelper(gameMoves);
-        }
-    }
+	@Test
+	public void testPawnCannotCaptureEmptySquare() {
+		BoardModel board = new BoardModel();
+		Game game = new Game(board);
+		assertThrows(UnsupportedOperationException.class, () -> game.playMove(2, 4, 3, 5));
+		assertThrows(UnsupportedOperationException.class, () -> game.playMove(2, 4, 3, 3));
+	}
 
-    public static class GameSimulation {
-        @Test
-        public void testFoolsMate() {   
-            game.reset();
-            int[][] gameMoves = {
-                {5, 5, 6, 5},
-                {3, 4, 1, 4}, 
-                {4, 6, 6, 6},
-                {4, 7, 0, 3},
-            };
-            addMovesHelper(gameMoves);
-            assertTrue(game.getGameState() == GameState.BLACK_WON);
-        }
-    
-        @Test
-        public void testAlmostFoolsMate() {    
-            game.reset();
-            int[][] gameMoves = {
-                {5, 5, 6, 5},
-                {3, 4, 1, 4}, 
-                {4, 0, 6, 0},
-                {4, 7, 0, 3},
-            };
-            addMovesHelper(gameMoves);
-            assertFalse(game.getGameState() == GameState.BLACK_WON);
-            assertTrue(game.getGameState() == GameState.ONGOING);
-            assertTrue(game.getModel().kingIsInCheck(Player.WHITE));
-        }
-    
-        @Test
-        public void testScholarsMate() {   
-            game.reset();
-            int[][] gameMoves = {
-                {4, 4, 6, 4},
-                {3, 4, 1, 4}, 
-                {4, 2, 7, 5},
-                {2, 2, 0, 1},
-                {3, 7, 7, 3}, // check here ... seems fine
-                {2, 5, 0, 6},
-                {1, 5, 3, 7}, // problem here
-            };
-            addMovesHelper(gameMoves);
-            assertTrue(game.getModel().isCheckMate(Player.BLACK));
-            assertTrue(game.getGameState() == GameState.WHITE_WON);
-        }
-    
-        @Test
-        public void testAlmostScholarsMate() {
-            game.reset();
-            int[][] gameMoves = {
-                {4, 4, 6, 4},
-                {3, 4, 1, 4}, 
-                {4, 2, 7, 5},
-                {2, 2, 0, 1},
-                {3, 7, 7, 3},
-                {2, 5, 0, 6},
-                {1, 5, 4, 2},
-            };
-            addMovesHelper(gameMoves);
-            assertFalse(game.getGameState() == GameState.WHITE_WON);
-            assertTrue(game.getGameState() == GameState.ONGOING);
-        }
-    }
+	@Test
+	public void testBishopCanMoveToEmptySquare() {
+		BoardModel board = new BoardModel();
+		Game game = new Game(board);
+		game.playMove(2, 5, 4, 5);
+		game.playMove(7, 4, 5, 4);
+		game.playMove(1, 6, 5, 2);
+	
+		Piece whiteBishop = new Piece(PieceType.BISHOP, PieceColor.WHITE);
+		assertEquals(whiteBishop, board.pieceAt(5, 2));
+		assertNull(board.pieceAt(1, 6));
+	}
+
+	@Test
+	public void testBishopCannotMoveThroughFriendlyPiece() {
+		BoardModel board = new BoardModel();
+		Game game = new Game(board);
+		assertThrows(UnsupportedOperationException.class, () -> game.playMove(1, 3, 3, 5));
+		assertThrows(UnsupportedOperationException.class, () -> game.playMove(1, 6, 5, 2));
+	}
+
+	@Test
+	public void testCanShortCastleWithUnoccupiedSquares() {
+		BoardModel board = new BoardModel();
+		MoveStrategy normal = new NormalMoveStrategy();
+		board.move(normal, new Move(2, 5, 4, 5));
+		board.move(normal, new Move(1, 6, 2, 5));
+		board.move(normal, new Move(1, 7, 3, 6));
+
+		Game game = new Game(board);
+		game.playMove(1, 5, 1, 7);
+
+		Piece whiteKing = new Piece(PieceType.KING, PieceColor.WHITE);
+		Piece whiteRook = new Piece(PieceType.ROOK, PieceColor.WHITE);
+		assertEquals(whiteKing, board.pieceAt(1, 7));
+		assertEquals(whiteRook, board.pieceAt(1, 6));
+		assertNull(board.pieceAt(1, 5));
+		assertNull(board.pieceAt(1, 8));
+	}
+
+	@Test
+	public void testCannotShortCastleAfterKingMove() {
+		BoardModel board = new BoardModel();
+		MoveStrategy normal = new NormalMoveStrategy();
+		board.move(normal, new Move(2, 5, 4, 5));
+		board.move(normal, new Move(1, 6, 2, 5));
+		board.move(normal, new Move(1, 7, 3, 6));
+		board.move(normal, new Move(1, 5, 1, 6));
+		board.move(normal, new Move(1, 6, 1, 5));
+
+		Game game = new Game(board);
+		assertThrows(UnsupportedOperationException.class, () -> game.playMove(1, 5, 1, 7));
+	}
+
+
+	@Test
+	public void testCannotShortCastleWithOccupiedSquares() {
+		BoardModel board = new BoardModel();
+		Game game = new Game(board);
+		assertThrows(UnsupportedOperationException.class, () -> game.playMove(1, 5, 1, 7));
+	}
+
+	@Test
+	public void testPlayerCannotMoveTwice() {
+		BoardModel board = new BoardModel();
+		Game game = new Game(board);
+		game.playMove(1, 2, 3, 3);
+		game.playMove(2, 4, 4, 4);
+
+		// Check that pawn move wasn't actually made.
+		Piece whitePawn = new Piece(PieceType.PAWN, PieceColor.WHITE);
+		assertEquals(whitePawn, board.pieceAt(2, 4));
+		assertNull(board.pieceAt(4, 4));
+	}
 }
