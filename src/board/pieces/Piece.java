@@ -5,10 +5,12 @@ import java.util.Objects;
 public class Piece {
 	private PieceType type;
 	private PieceColor color;
+	private boolean hasMoved;
 
 	public Piece(PieceType type, PieceColor color) {
 		this.type = type;
 		this.color = color;
+		this.hasMoved = false;
 	}
 
 	public boolean isEnemyOf(Piece piece) {
@@ -21,6 +23,14 @@ public class Piece {
 
 	public PieceColor getColor() {
 		return color;
+	}
+
+	public boolean hasMoved() {
+		return hasMoved;
+	}
+
+	public void setHasMoved(boolean hasMoved) {
+		this.hasMoved = hasMoved;
 	}
 
 	public char getBoardCharacter() {
