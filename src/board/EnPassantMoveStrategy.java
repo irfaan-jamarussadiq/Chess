@@ -16,6 +16,8 @@ public class EnPassantMoveStrategy implements MoveStrategy {
 		// Capture enemy pawn
 		board.removePiece(move.getStartRank(), move.getEndFile());
 		move.setCapturedPiece(pieceAtDestination);
+
+		pieceToMove.setHasMoved(true);
 	}
 
 	public void undoMove(BoardModel board, Move move) {

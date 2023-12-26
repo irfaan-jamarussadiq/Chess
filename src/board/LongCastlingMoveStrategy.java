@@ -15,6 +15,9 @@ public class LongCastlingMoveStrategy implements MoveStrategy {
 		Piece rook = board.pieceAt(move.getStartRank(), move.getStartFile() - 4);
 		board.removePiece(move.getStartRank(), move.getStartFile() - 4);
 		board.addPiece(rook, move.getStartRank(), move.getStartFile() - 1);
+
+		king.setHasMoved(true);
+		rook.setHasMoved(true);
 	}
 
 	public void undoMove(BoardModel board, Move move) {
@@ -30,10 +33,18 @@ public class LongCastlingMoveStrategy implements MoveStrategy {
 	}
 
 	public boolean isValidMove(BoardModel board, Move move) {
+		if (move.getStartFile() != 5) {
+			return false;
+		}
+
 		Piece expectedKing = board.pieceAt(move.getStartRank(), move.getStartFile());
 		Piece expectedRook = board.pieceAt(move.getStartRank(), move.getStartFile() - 4);
 		if (expectedKing == null || expectedKing.getType() != PieceType.KING 
 			|| expectedRook == null || expectedRook.getType() != PieceType.ROOK) {
+			return false;
+		}
+
+		if (expectedKing.hasMoved() || expectedRook.hasMoved()) {
 			return false;
 		}
 

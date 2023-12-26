@@ -15,6 +15,9 @@ public class ShortCastlingMoveStrategy implements MoveStrategy {
 		Piece rook = board.pieceAt(move.getStartRank(), move.getStartFile() + 3);
 		board.removePiece(move.getStartRank(), move.getStartFile() + 3);
 		board.addPiece(rook, move.getStartRank(), move.getStartFile() + 1);
+
+		king.setHasMoved(true);
+		rook.setHasMoved(true);
 	}
 
 	public void undoMove(BoardModel board, Move move) {
@@ -30,6 +33,10 @@ public class ShortCastlingMoveStrategy implements MoveStrategy {
 	}
 
 	public boolean isValidMove(BoardModel board, Move move) {
+		if (move.getStartFile() != 5) {
+			return false;
+		}
+
 		Piece expectedKing = board.pieceAt(move.getStartRank(), move.getStartFile());
 		Piece expectedRook = board.pieceAt(move.getStartRank(), move.getStartFile() + 3);
 		if (expectedKing == null || expectedKing.getType() != PieceType.KING 
@@ -37,8 +44,13 @@ public class ShortCastlingMoveStrategy implements MoveStrategy {
 			return false;
 		}
 
+		if (expectedKing.hasMoved() || expectedRook.hasMoved()) {
+			return false;
+		}
+
 		int startingRank = expectedKing.getColor().getPieceStartingRank();
-		return move.getStartRank() == startingRank && move.getStartFile() == 5 && move.getEndFile() == 7;
+		return move.getStartRank() == startingRank && move.getStartFile() == 5 && move.getEndFile() == 7
+			&& board.pieceAt(startingRank, 6) == null && board.pieceAt(startingRank, 7) == null;
 	}
 		
 }	
