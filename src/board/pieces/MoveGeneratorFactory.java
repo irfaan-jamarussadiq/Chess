@@ -6,17 +6,17 @@ import board.BoardModel;
 
 public class MoveGeneratorFactory {
 
-	public static MoveGenerator createMoveGenerator(Piece piece) {
+	public static MoveGenerator createMoveGenerator(Piece piece, BoardModel board) {
 		if (piece.getType() == PieceType.PAWN) {
-			return new PawnMoveGenerator(piece.getColor());
+			return new PawnMoveGenerator(piece.getColor(), piece.hasMoved());
 		} else if (piece.getType() == PieceType.KNIGHT) {
 			return new KnightMoveGenerator();
 		} else if (piece.getType() == PieceType.BISHOP) {
-			return new BishopMoveGenerator();
+			return new BishopMoveGenerator(board);
 		} else if (piece.getType() == PieceType.ROOK) {
-			return new RookMoveGenerator();
+			return new RookMoveGenerator(board);
 		} else if (piece.getType() == PieceType.QUEEN) {
-			return new QueenMoveGenerator();
+			return new QueenMoveGenerator(board);
 		} else if (piece.getType() == PieceType.KING) {
 			return new KingMoveGenerator();
 		}

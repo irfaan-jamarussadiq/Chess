@@ -7,27 +7,30 @@ import board.Move;
 import board.BoardModel;
 
 public class BishopMoveGenerator implements MoveGenerator {
-	private int minRank, maxRank, minFile, maxFile;
+	private BoardModel board;
 
-	public BishopMoveGenerator(int minRank, int maxRank, int minFile, int maxFile) {
-		this.minRank = minRank;
-		this.maxRank = maxRank;
-		this.minFile = minFile;
-		this.maxFile = maxFile;
+	public BishopMoveGenerator(BoardModel board) {
+		this.board = board;
 	}
 		
-	public BishopMoveGenerator() {
-		this(1, BoardModel.SIZE, 1, BoardModel.SIZE);
-	}
-
 	public List<Move> getMoves(int rank, int file) {
-		List<Move> moves = new ArrayList<>(2 * Math.max(maxRank - minRank, maxFile - minFile));
+		Piece piece = board.pieceAt(rank, file);
+		List<Move> moves = new ArrayList<>(2 * BoardModel.SIZE);
 		int[][] directions = { { -1, -1 }, { -1, 1 }, { 1, -1 }, { 1, 1 } }; 
 		for (int[] direction : directions) {
 			int endRank = rank + direction[0];
 			int endFile = file + direction[1];
-			while (endRank >= minRank && endRank <= maxRank && endFile >= minFile && endFile <= maxFile) {
+			while (endRank >= 1 && endRank <= BoardModel.SIZE && endFile >= 1 && endFile <= BoardModel.SIZE) {
+				Piece potentialEnemy = board.pieceAt(endRank, endFile);	
+				if (potentialEnemy != null && !potentialEnemy.isEnemyOf(piece)) {
+					break;
+				}
+
 				moves.add(new Move(rank, file, endRank, endFile)); 
+				if (potentialEnemy != null && potentialEnemy.isEnemyOf(piece)) {
+					break;
+				}
+
 				endRank += direction[0];
 				endFile += direction[1];
 			}

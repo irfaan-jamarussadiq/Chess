@@ -13,6 +13,7 @@ public class CaptureMoveStrategy implements MoveStrategy {
 		board.removePiece(move.getStartRank(), move.getStartFile());
 		board.addPiece(pieceToMove, move.getEndRank(), move.getEndFile());
 
+		pieceToMove.setHasMoved(true);
 		move.setCapturedPiece(pieceAtDestination);
 	}	
 
@@ -30,7 +31,7 @@ public class CaptureMoveStrategy implements MoveStrategy {
 			return false;
 		}
 	
-		MoveGenerator generator = MoveGeneratorFactory.createMoveGenerator(pieceToMove);
+		MoveGenerator generator = MoveGeneratorFactory.createMoveGenerator(pieceToMove, board);
 		List<Move> captures = generator.getCaptures(move.getStartRank(), move.getStartFile());
 		return captures.contains(move);
 	} 

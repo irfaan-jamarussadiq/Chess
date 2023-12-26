@@ -12,6 +12,8 @@ public class NormalMoveStrategy implements MoveStrategy {
 		Piece pieceToMove = board.pieceAt(move.getStartRank(), move.getStartFile());
 		board.removePiece(move.getStartRank(), move.getStartFile());
 		board.addPiece(pieceToMove, move.getEndRank(), move.getEndFile());
+
+		pieceToMove.setHasMoved(true);
 	}
 
 	public void undoMove(BoardModel board, Move move) {
@@ -27,7 +29,7 @@ public class NormalMoveStrategy implements MoveStrategy {
 			return false;
 		}
 
-		MoveGenerator generator = MoveGeneratorFactory.createMoveGenerator(pieceToMove);
+		MoveGenerator generator = MoveGeneratorFactory.createMoveGenerator(pieceToMove, board);
 		List<Move> possibleMoves = generator.getMoves(move.getStartRank(), move.getStartFile());
 		return possibleMoves.contains(move);
 	}
