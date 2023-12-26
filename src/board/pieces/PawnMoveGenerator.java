@@ -1,23 +1,28 @@
 package pieces;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import board.Move;
 
 public class PawnMoveGenerator implements MoveGenerator {
 	private PieceColor color;
+	private boolean pawnHasMoved;
 
-	public PawnMoveGenerator(PieceColor color) {
+	public PawnMoveGenerator(PieceColor color, boolean pawnHasMoved) {
 		this.color = color;
+		this.pawnHasMoved = pawnHasMoved;
 	}
 
 	public List<Move> getMoves(int rank, int file) {	
-		Move[] moves = new Move[2];
+		List<Move> moves = new ArrayList<>(2);
 		int direction = (color == PieceColor.WHITE) ? 1 : -1;
-		moves[0] = new Move(rank, file, rank + direction, file);
-		moves[1] = new Move(rank, file, rank + 2 * direction, file);	
-		return Arrays.asList(moves);
+		moves.add(new Move(rank, file, rank + direction, file));
+		if (!pawnHasMoved) {
+			moves.add(new Move(rank, file, rank + 2 * direction, file));
+		}
+		return moves;
 	}
 
 	@Override
