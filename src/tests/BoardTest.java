@@ -18,7 +18,7 @@ class BoardTest {
 	}
 
 	@Test
-	public void testMakeNormalMove() {
+	public void testPawnCanMoveTwoSquaresOnFirstMove() {
 		BoardModel board = new BoardModel();
 		MoveStrategy strategy = new NormalMoveStrategy();
 		Move move = new Move(2, 4, 4, 4);
