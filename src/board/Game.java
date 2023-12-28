@@ -14,17 +14,20 @@ public class Game {
 	private BoardModel board;
 	private Stack<Move> moveHistory; 
 
-	public static final Player WHITE_PLAYER = new Player(PieceColor.WHITE);
-	public static final Player BLACK_PLAYER = new Player(PieceColor.BLACK);
+	public final Player whitePlayer;
+	public final Player blackPlayer;
 	private Player currentPlayer;
 
 	public Game(BoardModel board) {	
 		this.board = board;
 		this.moveHistory = new Stack<>();
-		this.currentPlayer = WHITE_PLAYER; 
+		this.whitePlayer = new Player(PieceColor.WHITE);
+		this.blackPlayer = new Player(PieceColor.BLACK);
+		this.currentPlayer = whitePlayer; 
 	}
 
-	public boolean kingIsInCheck(Player player) {
+	public boolean kingIsInCheck(PieceColor color) {
+		Player player = (color == PieceColor.WHITE) ? whitePlayer : blackPlayer;
 		int kingRank = player.getKingLocation().getRank();
 		int kingFile = player.getKingLocation().getFile();
 		return squareIsAttacked(kingRank, kingFile, player.getColor());
@@ -37,13 +40,13 @@ public class Game {
 			board.move(strategy, move);
 			updateKingLocation(currentPlayer, endRank, endFile);
 			moveHistory.push(move);
-			currentPlayer = (currentPlayer == WHITE_PLAYER) ? BLACK_PLAYER : WHITE_PLAYER;
+			currentPlayer = (currentPlayer == whitePlayer) ? blackPlayer : whitePlayer;
 		}
 	}
 
 	@Override
 	public String toString() {
-		String player = (currentPlayer == WHITE_PLAYER) ? "WHITE" : "BLACK";	
+		String player = (currentPlayer == whitePlayer) ? "WHITE" : "BLACK";	
 		String playerString = String.format("Current player: %s", player);
 		return playerString + "\n" + board.toString();
 	}
@@ -98,5 +101,4 @@ public class Game {
 			&& move.getEndFile() >= 1 && move.getEndFile() <= BoardModel.SIZE;
 	}
 
-	
 }

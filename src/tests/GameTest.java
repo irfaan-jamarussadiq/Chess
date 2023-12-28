@@ -149,8 +149,8 @@ class GameTest {
 		game.playMove(1, 7, 3, 6); 
 		game.playMove(8, 6, 4, 2); 
 
-		assertTrue(game.kingIsInCheck(Game.WHITE_PLAYER));
-		assertFalse(game.kingIsInCheck(Game.BLACK_PLAYER));
+		assertTrue(game.kingIsInCheck(PieceColor.WHITE));
+		assertFalse(game.kingIsInCheck(PieceColor.BLACK));
 	}
 
 }
