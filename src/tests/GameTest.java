@@ -52,7 +52,6 @@ class GameTest {
 		game.playMove(2, 5, 4, 5);
 		game.playMove(7, 4, 5, 4);
 		game.playMove(1, 6, 5, 2);
-	
 		Piece whiteBishop = new Piece(PieceType.BISHOP, PieceColor.WHITE);
 		assertEquals(whiteBishop, board.pieceAt(5, 2));
 		assertNull(board.pieceAt(1, 6));
@@ -99,12 +98,33 @@ class GameTest {
 		assertThrows(UnsupportedOperationException.class, () -> game.playMove(1, 5, 1, 7));
 	}
 
-
 	@Test
 	public void testCannotShortCastleWithOccupiedSquares() {
 		BoardModel board = new BoardModel();
 		Game game = new Game(board);
 		assertThrows(UnsupportedOperationException.class, () -> game.playMove(1, 5, 1, 7));
+	}
+
+	@Test
+	public void testCannotLongCastleAfterKingMove() {
+		BoardModel board = new BoardModel();
+		MoveStrategy normal = new NormalMoveStrategy();
+		board.move(normal, new Move(2, 4, 4, 4));
+		board.move(normal, new Move(1, 3, 3, 5));
+		board.move(normal, new Move(1, 2, 3, 3));
+		board.move(normal, new Move(1, 4, 2, 4));
+		board.move(normal, new Move(1, 5, 1, 4));
+		board.move(normal, new Move(1, 4, 1, 5));
+
+		Game game = new Game(board);
+		assertThrows(UnsupportedOperationException.class, () -> game.playMove(1, 5, 1, 3));
+	}
+
+	@Test
+	public void testCannotLongCastleWithOccupiedSquares() {
+		BoardModel board = new BoardModel();
+		Game game = new Game(board);
+		assertThrows(UnsupportedOperationException.class, () -> game.playMove(1, 5, 1, 3));
 	}
 
 	@Test
@@ -119,4 +139,18 @@ class GameTest {
 		assertEquals(whitePawn, board.pieceAt(2, 4));
 		assertNull(board.pieceAt(4, 4));
 	}
+
+	@Test
+	public void testWhiteKingInCheck() {
+		BoardModel board = new BoardModel();
+		Game game = new Game(board);
+		game.playMove(2, 4, 4, 4);
+		game.playMove(7, 5, 5, 5);
+		game.playMove(1, 7, 3, 6); 
+		game.playMove(8, 6, 4, 2); 
+
+		assertTrue(game.kingIsInCheck(Game.WHITE_PLAYER));
+		assertFalse(game.kingIsInCheck(Game.BLACK_PLAYER));
+	}
+
 }

@@ -5,14 +5,19 @@ import pieces.PieceType;
 
 public class ShortCastlingMoveStrategy implements MoveStrategy {
 
+	private boolean kingMovedBefore;
+	private boolean rookMovedBefore;
+
 	public void move(BoardModel board, Move move) {
 		// Move king
 		Piece king = board.pieceAt(move.getStartRank(), move.getStartFile());
+		this.kingMovedBefore = king.hasMoved();
 		board.removePiece(move.getStartRank(), move.getStartFile());
 		board.addPiece(king, move.getEndRank(), move.getEndFile());
 
 		// Move rook
 		Piece rook = board.pieceAt(move.getStartRank(), move.getStartFile() + 3);
+		this.rookMovedBefore = rook.hasMoved();
 		board.removePiece(move.getStartRank(), move.getStartFile() + 3);
 		board.addPiece(rook, move.getStartRank(), move.getStartFile() + 1);
 
@@ -30,6 +35,9 @@ public class ShortCastlingMoveStrategy implements MoveStrategy {
 		Piece rook = board.pieceAt(move.getEndRank(), move.getStartFile() + 1);
 		board.removePiece(move.getEndRank(), move.getStartFile() + 1);
 		board.addPiece(rook, move.getStartRank(), move.getStartFile() + 3);
+
+		king.setHasMoved(kingMovedBefore);
+		rook.setHasMoved(rookMovedBefore);
 	}
 
 	public boolean isValidMove(BoardModel board, Move move) {
@@ -44,6 +52,9 @@ public class ShortCastlingMoveStrategy implements MoveStrategy {
 			return false;
 		}
 
+		System.out.println(move);
+		System.out.println(expectedKing.hasMoved());
+		System.out.println(expectedRook.hasMoved());
 		if (expectedKing.hasMoved() || expectedRook.hasMoved()) {
 			return false;
 		}

@@ -15,6 +15,10 @@ public class Player {
 		return kingLocation;
 	}
 
+	public void setKingLocation(int rank, int file) {
+		this.kingLocation = new Location(rank, file);
+	}
+
 	public PieceColor getColor() {
 		return color;
 	}

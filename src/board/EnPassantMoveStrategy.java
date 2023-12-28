@@ -5,9 +5,12 @@ import pieces.PieceType;
 
 public class EnPassantMoveStrategy implements MoveStrategy {
 
+	private boolean pawnMovedBefore;
+
 	public void move(BoardModel board, Move move) {
 		Piece pieceToMove = board.pieceAt(move.getStartRank(), move.getStartFile());
 		Piece pieceAtDestination = board.pieceAt(move.getEndRank(), move.getEndFile());
+		this.pawnMovedBefore = pieceToMove.hasMoved();
 
 		// Move pawn
 		board.removePiece(move.getStartRank(), move.getStartFile());
@@ -16,8 +19,6 @@ public class EnPassantMoveStrategy implements MoveStrategy {
 		// Capture enemy pawn
 		board.removePiece(move.getStartRank(), move.getEndFile());
 		move.setCapturedPiece(pieceAtDestination);
-
-		pieceToMove.setHasMoved(true);
 	}
 
 	public void undoMove(BoardModel board, Move move) {
@@ -25,6 +26,8 @@ public class EnPassantMoveStrategy implements MoveStrategy {
 		board.removePiece(move.getEndRank(), move.getEndFile());
 		board.addPiece(pieceToMove, move.getStartRank(), move.getStartFile());
 		board.addPiece(move.getCapturedPiece(), move.getStartRank(), move.getEndFile());
+
+		pieceToMove.setHasMoved(pawnMovedBefore);	
 	}	
 
 	public boolean isValidMove(BoardModel board, Move move) {
