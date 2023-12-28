@@ -52,9 +52,6 @@ public class ShortCastlingMoveStrategy implements MoveStrategy {
 			return false;
 		}
 
-		System.out.println(move);
-		System.out.println(expectedKing.hasMoved());
-		System.out.println(expectedRook.hasMoved());
 		if (expectedKing.hasMoved() || expectedRook.hasMoved()) {
 			return false;
 		}
