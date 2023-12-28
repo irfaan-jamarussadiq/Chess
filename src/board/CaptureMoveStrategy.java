@@ -9,6 +9,7 @@ import pieces.MoveGeneratorFactory;
 public class CaptureMoveStrategy implements MoveStrategy {
 
 	private boolean pieceHasMovedBefore;
+	private Piece capturedPiece;
 
 	public void move(BoardModel board, Move move) {
 		Piece pieceToMove = board.pieceAt(move.getStartRank(), move.getStartFile());
@@ -17,13 +18,14 @@ public class CaptureMoveStrategy implements MoveStrategy {
 		board.addPiece(pieceToMove, move.getEndRank(), move.getEndFile());
 
 		this.pieceHasMovedBefore = pieceToMove.hasMoved();
+		this.capturedPiece = pieceAtDestination;
 	}	
 
 	public void undoMove(BoardModel board, Move move) {
 		Piece pieceToMove = board.pieceAt(move.getEndRank(), move.getEndFile());
 		board.removePiece(move.getEndRank(), move.getEndFile());
 		board.addPiece(pieceToMove, move.getStartRank(), move.getStartFile());
-		board.addPiece(move.getCapturedPiece(), move.getEndRank(), move.getEndFile());
+		board.addPiece(capturedPiece, move.getEndRank(), move.getEndFile());
 
 		pieceToMove.setHasMoved(pieceHasMovedBefore);	
 	}

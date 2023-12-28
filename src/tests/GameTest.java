@@ -153,4 +153,34 @@ class GameTest {
 		assertFalse(game.kingIsInCheck(PieceColor.BLACK));
 	}
 
+	@Test
+	public void testPawnMoveBlockedCheck() {
+		BoardModel board = new BoardModel();
+		Game game = new Game(board);
+		game.playMove(2, 4, 4, 4);
+		game.playMove(7, 5, 5, 5);
+		game.playMove(1, 7, 3, 6); 
+		game.playMove(8, 6, 4, 2); 
+		game.playMove(2, 3, 3, 3); 
+
+		assertFalse(game.kingIsInCheck(PieceColor.WHITE));
+		assertFalse(game.kingIsInCheck(PieceColor.BLACK));
+	}
+
+	@Test
+	public void testKingCaptureMoveBlockedCheck() {
+		BoardModel board = new BoardModel();
+		Game game = new Game(board);
+		game.playMove(2, 4, 4, 4);
+		game.playMove(7, 5, 5, 5);
+		game.playMove(1, 7, 3, 6); 
+		game.playMove(8, 6, 4, 2); 
+		game.playMove(1, 3, 2, 4); 
+		game.playMove(4, 2, 2, 4); 
+		game.playMove(1, 5, 2, 4); 
+
+		assertFalse(game.kingIsInCheck(PieceColor.WHITE));
+		assertFalse(game.kingIsInCheck(PieceColor.BLACK));
+	}
+
 }
