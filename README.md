@@ -20,6 +20,8 @@ A move is valid if it meets all of the following criteria:
 - Has a valid move strategy to play the move
 - Would not cause check to the player's king
 
+To manage the state of the game, there are methods to determine whether the king is in check, checkmate, or stalemate.
+
 ## GUI Examples
 | Normal Position | Castling Moves | Check | Checkmate |
 | ------------- | ------------- | ------------- | ------------- |
