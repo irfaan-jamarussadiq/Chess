@@ -1,7 +1,5 @@
 package src.board;
 
-import java.util.List;
-
 import src.board.pieces.*;
 
 public class BoardModel {
