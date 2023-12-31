@@ -1,7 +1,7 @@
-package board;
+package src.board;
 
-import pieces.Piece;
-import pieces.PieceType;
+import src.board.pieces.Piece;
+import src.board.pieces.PieceType;
 
 public class EnPassantMoveStrategy implements MoveStrategy {
 
@@ -9,38 +9,38 @@ public class EnPassantMoveStrategy implements MoveStrategy {
 	private Piece capturedPawn;
 
 	public void move(BoardModel board, Move move) {
-		Piece pieceToMove = board.pieceAt(move.getStartRank(), move.getStartFile());
-		Piece pieceAtDestination = board.pieceAt(move.getEndRank(), move.getEndFile());
+		Piece pieceToMove = board.pieceAt(move.startRank(), move.startFile());
+		Piece pieceAtDestination = board.pieceAt(move.endRank(), move.endFile());
 		this.pawnMovedBefore = pieceToMove.hasMoved();
 		this.capturedPawn = pieceAtDestination;
 
 		// Move pawn
-		board.removePiece(move.getStartRank(), move.getStartFile());
-		board.addPiece(pieceToMove, move.getEndRank(), move.getEndFile());
+		board.removePiece(move.startRank(), move.startFile());
+		board.addPiece(pieceToMove, move.endRank(), move.endFile());
 
 		// Capture enemy pawn
-		board.removePiece(move.getStartRank(), move.getEndFile());
+		board.removePiece(move.startRank(), move.endFile());
 	}
 
 	public void undoMove(BoardModel board, Move move) {
-		Piece pieceToMove = board.pieceAt(move.getEndRank(), move.getEndFile());
-		board.removePiece(move.getEndRank(), move.getEndFile());
-		board.addPiece(pieceToMove, move.getStartRank(), move.getStartFile());
-		board.addPiece(capturedPawn, move.getStartRank(), move.getEndFile());
+		Piece pieceToMove = board.pieceAt(move.endRank(), move.endFile());
+		board.removePiece(move.endRank(), move.endFile());
+		board.addPiece(pieceToMove, move.startRank(), move.startFile());
+		board.addPiece(capturedPawn, move.startRank(), move.endFile());
 
 		pieceToMove.setHasMoved(pawnMovedBefore);	
 	}	
 
 	public boolean isValidMove(BoardModel board, Move move) {
-		Piece piece = board.pieceAt(move.getStartRank(), move.getStartFile());
+		Piece piece = board.pieceAt(move.startRank(), move.startFile());
 		if (piece == null || piece.getType() == PieceType.PAWN) {
 			return false;
 		}
 
-		Piece capturedPawn = board.pieceAt(move.getStartRank(), move.getEndFile());
-		return move.getStartRank() == piece.getColor().getEnPassantStartingRank()		
+		Piece capturedPawn = board.pieceAt(move.startRank(), move.endFile());
+		return move.startRank() == piece.getColor().getEnPassantStartingRank()		
 			&& capturedPawn != null && capturedPawn.getType() == PieceType.PAWN 
-			&& move.getStartRank() + piece.getColor().getPawnDirection() == move.getEndRank()
-			&& Math.abs(move.getEndFile() - move.getStartFile()) == 1; 
+			&& move.startRank() + piece.getColor().getPawnDirection() == move.endRank()
+			&& Math.abs(move.endFile() - move.startFile()) == 1; 
 	}
 }	

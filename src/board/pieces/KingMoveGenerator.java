@@ -1,9 +1,9 @@
-package pieces;
+package src.board.pieces;
 
 import java.util.List;
 import java.util.Arrays;
 
-import board.Move;
+import src.board.Move;
 
 public class KingMoveGenerator implements MoveGenerator {
 	public List<Move> getMoves(int rank, int file) {	

@@ -1,10 +1,7 @@
-package pieces;
+package src.board.pieces;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
-import board.Move;
-import board.BoardModel;
+import src.board.Move;
 
 public interface MoveGenerator {
 	List<Move> getMoves(int rank, int file);	

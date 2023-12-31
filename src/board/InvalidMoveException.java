@@ -1,4 +1,4 @@
-package board;
+package src.board;
 
 public class InvalidMoveException extends IllegalArgumentException {
 	protected int startRank, startFile, endRank, endFile;
@@ -11,10 +11,10 @@ public class InvalidMoveException extends IllegalArgumentException {
 	}
 
 	InvalidMoveException(Move move) {
-		this.startRank = move.getStartRank();
-		this.startFile = move.getStartFile();
-		this.endRank = move.getEndRank();
-		this.endFile = move.getEndFile();
+		this.startRank = move.startRank();
+		this.startFile = move.startFile();
+		this.endRank = move.endRank();
+		this.endFile = move.endFile();
 	}
 
 	@Override

@@ -1,8 +1,6 @@
-package pieces;
+package src.board.pieces;
 
-import java.util.Map;
-import static java.util.Map.entry;
-import board.BoardModel;
+import src.board.BoardModel;
 
 public class MoveGeneratorFactory {
 

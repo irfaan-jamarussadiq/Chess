@@ -1,10 +1,7 @@
-package tests;
+package src.tests;
 
-import pieces.Piece;
-import pieces.PieceType;
-import pieces.PieceColor;
-
-import board.*;
+import src.board.pieces.*;
+import src.board.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

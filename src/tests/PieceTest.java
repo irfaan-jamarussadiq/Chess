@@ -1,8 +1,8 @@
-package tests;
+package src.tests;
 
-import pieces.Piece;
-import pieces.PieceType;
-import pieces.PieceColor;
+import src.board.pieces.Piece;
+import src.board.pieces.PieceType;
+import src.board.pieces.PieceColor;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,7 +31,6 @@ class PieceTest {
 	@Test
 	public void testEmptySquareIsNotEnemy() {
 		Piece piece1 = new Piece(PieceType.PAWN, PieceColor.BLACK);
-		Piece piece2 = null;
-		assertFalse(piece1.isEnemyOf(piece2));
+		assertFalse(piece1.isEnemyOf(null));
 	}
 }

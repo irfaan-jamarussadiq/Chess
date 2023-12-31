@@ -1,9 +1,7 @@
-package tests;
+package src.tests;
 
-import pieces.Piece;
-import pieces.PieceType;
-import pieces.PieceColor;
-import board.*;
+import src.board.pieces.*;
+import src.board.*;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -329,7 +327,7 @@ class GameTest {
 		}; 	
 		
 		for (Move move : moves) {
-			game.playMove(move.getStartRank(), move.getStartFile(), move.getEndRank(), move.getEndFile());
+			game.playMove(move.startRank(), move.startFile(), move.endRank(), move.endFile());
 		}	
 
 		System.out.println(game);

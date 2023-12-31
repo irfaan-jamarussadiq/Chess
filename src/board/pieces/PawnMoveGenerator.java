@@ -1,10 +1,10 @@
-package pieces;
+package src.board.pieces;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import board.Move;
+import src.board.Move;
 
 public class PawnMoveGenerator implements MoveGenerator {
 	private PieceColor color;

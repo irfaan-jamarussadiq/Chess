@@ -1,4 +1,4 @@
-package board;
+package src.board;
 
 public interface MoveStrategy {
 	void move(BoardModel board, Move move);

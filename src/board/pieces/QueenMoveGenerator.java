@@ -1,10 +1,10 @@
-package pieces;
+package src.board.pieces;
 
 import java.util.List;
 import java.util.ArrayList;
 
-import board.Move;
-import board.BoardModel;
+import src.board.Move;
+import src.board.BoardModel;
 
 public class QueenMoveGenerator implements MoveGenerator {
 

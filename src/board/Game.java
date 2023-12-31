@@ -1,17 +1,12 @@
-package board;
+package src.board;
 
 import java.util.List;
 import java.util.Stack;
 
-import pieces.Piece;
-import pieces.PieceType;
-import pieces.PieceColor;
-import pieces.MoveGenerator;
-import pieces.MoveGeneratorFactory;
-import pieces.KingMoveGenerator;
+import src.board.pieces.*;
 
 public class Game {
-	private BoardModel board;
+	private final BoardModel board;
 	private Stack<Move> moveHistory; 
 
 	public final Player whitePlayer;
@@ -28,8 +23,8 @@ public class Game {
 
 	public boolean playerIsInCheck(PieceColor color) {
 		Player player = (color == PieceColor.WHITE) ? whitePlayer : blackPlayer;
-		int kingRank = player.getKingLocation().getRank();
-		int kingFile = player.getKingLocation().getFile();
+		int kingRank = player.getKingLocation().rank();
+		int kingFile = player.getKingLocation().file();
 		return squareIsAttacked(kingRank, kingFile, player.getColor());
 	}
 
@@ -87,7 +82,7 @@ public class Game {
 	}
 
 	private boolean isValidMove(Player player, Move move) {
-		Piece pieceToMove = board.pieceAt(move.getStartRank(), move.getStartFile());	
+		Piece pieceToMove = board.pieceAt(move.startRank(), move.startFile());
 		if (pieceToMove == null || pieceToMove.getColor() != player.getColor()) {
 			return false;
 		}
@@ -106,11 +101,11 @@ public class Game {
 
 	private boolean moveWouldCauseCheck(Player player, Move move, MoveStrategy strategy) {
 		strategy.move(board, move);
-		updateKingLocation(player, move.getEndRank(), move.getEndFile());
+		updateKingLocation(player, move.endRank(), move.endFile());
 		Location kingLocation = player.getKingLocation();
-		boolean kingInCheck = squareIsAttacked(kingLocation.getRank(), kingLocation.getFile(), player.getColor());
+		boolean kingInCheck = squareIsAttacked(kingLocation.rank(), kingLocation.file(), player.getColor());
 		strategy.undoMove(board, move);		
-		updateKingLocation(player, move.getStartRank(), move.getStartFile());
+		updateKingLocation(player, move.startRank(), move.startFile());
 		return kingInCheck;
 	}
 
@@ -121,7 +116,7 @@ public class Game {
 			List<Move> captures = generator.getCaptures(rank, file);
 			for (Move move : captures) {
 				if (moveIsWithinBoard(move)) {
-					Piece potentialEnemy = board.pieceAt(move.getEndRank(), move.getEndFile());
+					Piece potentialEnemy = board.pieceAt(move.endRank(), move.endFile());
 					if (piece.isEnemyOf(potentialEnemy) && potentialEnemy.getType() == type) {
 						return true;
 					}
@@ -133,10 +128,10 @@ public class Game {
 	}
 
 	private static boolean moveIsWithinBoard(Move move) {
-		return move.getStartRank() >= 1 && move.getStartRank() <= BoardModel.SIZE
-			&& move.getStartFile() >= 1 && move.getStartFile() <= BoardModel.SIZE
-			&& move.getEndRank() >= 1 && move.getEndRank() <= BoardModel.SIZE
-			&& move.getEndFile() >= 1 && move.getEndFile() <= BoardModel.SIZE;
+		return move.startRank() >= 1 && move.startRank() <= BoardModel.SIZE
+			&& move.startFile() >= 1 && move.startFile() <= BoardModel.SIZE
+			&& move.endRank() >= 1 && move.endRank() <= BoardModel.SIZE
+			&& move.endFile() >= 1 && move.endFile() <= BoardModel.SIZE;
 	}
 
 }

@@ -1,13 +1,13 @@
-package board;
+package src.board;
 
 import java.util.List;
 
-import pieces.*;
+import src.board.pieces.*;
 
 public class BoardModel {
 
 	public static final int SIZE = 8;
-	private Piece[][] board;
+	private final Piece[][] board;
 
 	public BoardModel() {
 		if (SIZE < 8) {
@@ -56,12 +56,12 @@ public class BoardModel {
 
 	@Override
 	public String toString() {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for (int rank = SIZE; rank >= 1; rank--) {
 			for (int file = 1; file <= SIZE; file++) {
 				Piece piece = pieceAt(rank, file);
 				if (piece != null) {
-					sb.append(piece.getBoardCharacter() + " ");
+					sb.append(piece.getBoardCharacter()).append(" ");
 				} else {
 					sb.append(". ");
 				}	

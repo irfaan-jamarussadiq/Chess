@@ -1,6 +1,6 @@
-package pieces;
+package src.board.pieces;
 
-import board.BoardModel;
+import src.board.BoardModel;
 
 public enum PieceColor {
 	WHITE {

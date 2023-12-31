@@ -1,6 +1,6 @@
-package board;
+package src.board;
 
-import pieces.PieceColor;
+import src.board.pieces.PieceColor;
 
 public class Player {
 	private Location kingLocation;
