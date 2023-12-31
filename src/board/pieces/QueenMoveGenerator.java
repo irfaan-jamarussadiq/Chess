@@ -8,7 +8,7 @@ import src.board.BoardModel;
 
 public class QueenMoveGenerator implements MoveGenerator {
 
-	private BoardModel board;
+	private final BoardModel board;
 	
 	public QueenMoveGenerator(BoardModel board) {
 		this.board = board;

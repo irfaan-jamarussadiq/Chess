@@ -7,8 +7,8 @@ import java.util.Arrays;
 import src.board.Move;
 
 public class PawnMoveGenerator implements MoveGenerator {
-	private PieceColor color;
-	private boolean pawnHasMoved;
+	private final PieceColor color;
+	private final boolean pawnHasMoved;
 
 	public PawnMoveGenerator(PieceColor color, boolean pawnHasMoved) {
 		this.color = color;

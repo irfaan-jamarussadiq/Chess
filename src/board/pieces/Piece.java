@@ -3,8 +3,8 @@ package src.board.pieces;
 import java.util.Objects;
 
 public class Piece {
-	private PieceType type;
-	private PieceColor color;
+	private final PieceType type;
+	private final PieceColor color;
 	private boolean hasMoved;
 
 	public Piece(PieceType type, PieceColor color) {

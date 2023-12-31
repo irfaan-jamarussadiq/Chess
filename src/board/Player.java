@@ -4,7 +4,7 @@ import src.board.pieces.PieceColor;
 
 public class Player {
 	private Location kingLocation;
-	private PieceColor color;
+	private final PieceColor color;
 
 	public Player(PieceColor color) {
 		this.color = color;

@@ -57,8 +57,7 @@ public class ShortCastlingMoveStrategy implements MoveStrategy {
 		}
 
 		int startingRank = expectedKing.getColor().getPieceStartingRank();
-		return move.startRank() == startingRank && move.startFile() == 5 && move.endFile() == 7
-			&& board.pieceAt(startingRank, 6) == null && board.pieceAt(startingRank, 7) == null;
+		return move.startRank() == startingRank && move.endFile() == 7 && board.pieceAt(startingRank, 6) == null && board.pieceAt(startingRank, 7) == null;
 	}
 		
 }	

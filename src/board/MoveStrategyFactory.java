@@ -2,7 +2,7 @@ package src.board;
 
 public class MoveStrategyFactory {
 
-	private static MoveStrategy[] strategies = {
+	private static final MoveStrategy[] strategies = {
 		new NormalMoveStrategy(),
 		new CaptureMoveStrategy(),
 		new EnPassantMoveStrategy(),
