@@ -12,7 +12,6 @@ public class GameView extends GridPane {
         boardSquares = new Tile[boardSize][boardSize];
         for (int rank = 1; rank <= boardSize; rank++) {
             for (int file = 1; file <= boardSize; file++) {
-                // TODO: When a square's color is set, how should GridPane update?
                 Piece piece = boardModel.pieceAt(rank, file);
                 boardSquares[rank - 1][file - 1] = new Tile(rank, file, piece);
                 this.add(boardSquares[rank - 1][file - 1], file, BoardModel.SIZE - rank);
