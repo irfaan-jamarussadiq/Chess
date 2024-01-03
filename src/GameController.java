@@ -16,7 +16,6 @@ public class GameController implements EventHandler<MouseEvent> {
     private final Game game;
     private Piece previousPiece;
     private List<Move> previousMoves = new ArrayList<>();
-    private List<Move> currentMoves = new ArrayList<>();
 
     public GameController() {
         boardModel = new BoardModel();
@@ -45,7 +44,7 @@ public class GameController implements EventHandler<MouseEvent> {
         }
 
         if (previousPiece != currrentPiece) {
-            currentMoves = game.getValidMoves(currrentPiece, rank, file);
+            List<Move> currentMoves = game.getValidMoves(currrentPiece, rank, file);
 
             for (Move move : currentMoves) {
                 gameView.highlightSquare(move.endRank(), move.endFile());
