@@ -34,31 +34,28 @@ public class Piece {
 	}
 
 	public char getBoardCharacter() {
-		char character = ' ';
+		char character = '\u0000';
 		switch(type) {
-			case PAWN:
-				character = 'p';
-				break;
 			case ROOK:
-				character = 'r';
+				character = 'R';
 				break;
 			case KNIGHT:
-				character = 'n';
+				character = 'N';
 				break;
 			case BISHOP:
-				character = 'b';
+				character = 'B';
 				break;
 			case QUEEN:
-				character = 'q';
+				character = 'Q';
 				break;
 			case KING:
-				character = 'k';
+				character = 'K';
 				break;
 			default:
 				break;
 		}
 		
-		return (color == PieceColor.WHITE) ? character : Character.toUpperCase(character);
+		return character;
 	}		
 
 	@Override
