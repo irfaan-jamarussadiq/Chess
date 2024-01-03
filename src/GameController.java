@@ -50,9 +50,11 @@ public class GameController implements EventHandler<MouseEvent> {
             for (Move move : currentMoves) {
                 gameView.highlightSquare(move.endRank(), move.endFile());
             }
-        }
 
-        previousMoves = new ArrayList<>(currentMoves);
-        previousPiece = currrentPiece;
+            previousMoves = new ArrayList<>(currentMoves);
+            previousPiece = currrentPiece;
+        } else {
+            previousPiece = null;
+        }
     }
 }
