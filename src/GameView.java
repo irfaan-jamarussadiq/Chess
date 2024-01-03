@@ -1,12 +1,11 @@
 package src;
 
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import src.board.BoardModel;
 import src.board.pieces.Piece;
 
 public class GameView extends GridPane {
-    private Tile[][] boardSquares;
+    private final Tile[][] boardSquares;
 
     public GameView(BoardModel boardModel) {
         int boardSize = BoardModel.SIZE;
