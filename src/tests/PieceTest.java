@@ -1,8 +1,8 @@
 package src.tests;
 
-import src.board.pieces.Piece;
-import src.board.pieces.PieceType;
-import src.board.pieces.PieceColor;
+import src.pieces.Piece;
+import src.pieces.PieceType;
+import src.pieces.PieceColor;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,4 +1,4 @@
-package src.board.pieces;
+package src.pieces;
 
 import java.util.List;
 import java.util.Arrays;

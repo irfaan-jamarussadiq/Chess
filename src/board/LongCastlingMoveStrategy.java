@@ -1,14 +1,19 @@
 package src.board;
 
-import src.board.pieces.Piece;
-import src.board.pieces.PieceType;
+import src.pieces.Piece;
+import src.pieces.PieceType;
 
 public class LongCastlingMoveStrategy implements MoveStrategy {
 
+	private final BoardModel board;
 	private boolean kingMovedBefore;
 	private boolean rookMovedBefore;
 
-	public void move(BoardModel board, Move move) {
+	public LongCastlingMoveStrategy(BoardModel board) {
+		this.board = board;
+	}
+
+	public void move(Move move) {
 		// Move king
 		Piece king = board.pieceAt(move.startRank(), move.startFile());
 		this.kingMovedBefore = king.hasMoved();
@@ -25,7 +30,7 @@ public class LongCastlingMoveStrategy implements MoveStrategy {
 		rook.setHasMoved(true);
 	}
 
-	public void undoMove(BoardModel board, Move move) {
+	public void undoMove(Move move) {
 		// Undo king move
 		Piece king = board.pieceAt(move.endRank(), move.endFile());
 		board.removePiece(move.endRank(), move.endFile());
@@ -40,7 +45,7 @@ public class LongCastlingMoveStrategy implements MoveStrategy {
 		rook.setHasMoved(rookMovedBefore);
 	}
 
-	public boolean isValidMove(BoardModel board, Move move) {
+	public boolean isValidMove(Move move) {
 		if (move.startFile() != 5) {
 			return false;
 		}
@@ -57,7 +62,9 @@ public class LongCastlingMoveStrategy implements MoveStrategy {
 		}
 
 		int startingRank = expectedKing.getColor().getPieceStartingRank();
-		return move.startRank() == startingRank && move.endFile() == 3 && board.pieceAt(startingRank, 2) == null && board.pieceAt(startingRank, 3) == null;
+		return move.startRank() == startingRank && move.endFile() == 3
+				&& board.pieceAt(startingRank, 2) == null
+				&& board.pieceAt(startingRank, 3) == null;
 
 	}
 		 

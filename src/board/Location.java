@@ -1,6 +1,10 @@
 package src.board;
 
 public record Location(int rank, int file) {
+	public static boolean isWithinBounds(int rank, int file) {
+		return rank >= 1 && rank <= BoardModel.SIZE && file >= 1 && file <= BoardModel.SIZE;
+	}
+
 	@Override
 	public boolean equals(Object other) {
 		if (this == other || other.getClass() != Location.class) {

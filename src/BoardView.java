@@ -2,18 +2,23 @@ package src;
 
 import javafx.scene.layout.GridPane;
 import src.board.BoardModel;
-import src.board.pieces.Piece;
+import src.pieces.Piece;
 
-public class GameView extends GridPane {
-    private final Tile[][] boardSquares;
+public class BoardView extends GridPane {
+    private final TileView[][] boardSquares;
 
-    public GameView(BoardModel boardModel) {
+    public BoardView(BoardModel boardModel) {
         int boardSize = BoardModel.SIZE;
-        boardSquares = new Tile[boardSize][boardSize];
+        boardSquares = new TileView[boardSize][boardSize];
+        createBoardView(boardModel);
+    }
+
+    void createBoardView(BoardModel boardModel) {
+        int boardSize = BoardModel.SIZE;
         for (int rank = 1; rank <= boardSize; rank++) {
             for (int file = 1; file <= boardSize; file++) {
                 Piece piece = boardModel.pieceAt(rank, file);
-                boardSquares[rank - 1][file - 1] = new Tile(rank, file, piece);
+                boardSquares[rank - 1][file - 1] = new TileView(rank, file, piece);
                 this.add(boardSquares[rank - 1][file - 1], file, BoardModel.SIZE - rank);
             }
         }

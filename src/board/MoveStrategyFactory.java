@@ -1,18 +1,17 @@
 package src.board;
 
 public class MoveStrategyFactory {
-
-	private static final MoveStrategy[] strategies = {
-		new NormalMoveStrategy(),
-		new CaptureMoveStrategy(),
-		new EnPassantMoveStrategy(),
-		new ShortCastlingMoveStrategy(),
-		new LongCastlingMoveStrategy()
-	};
-
 	public static MoveStrategy createMoveStrategy(BoardModel board, Move move) {
+		MoveStrategy[] strategies = {
+				new NormalMoveStrategy(board),
+				new CaptureMoveStrategy(board),
+				new EnPassantMoveStrategy(board),
+				new ShortCastlingMoveStrategy(board),
+				new LongCastlingMoveStrategy(board)
+		};
+
 		for (MoveStrategy strategy : strategies) {
-			if (strategy.isValidMove(board, move)) {
+			if (strategy.isValidMove(move)) {
 				return strategy;
 			}
 		}		

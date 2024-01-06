@@ -1,4 +1,4 @@
-package src.board.pieces;
+package src.pieces;
 
 import src.board.BoardModel;
 
@@ -6,10 +6,6 @@ public enum PieceColor {
 	WHITE {
 		public int getPieceStartingRank() {
 			return 1;
-		}
-
-		public int getPawnStartingRank() {
-			return 2;
 		}
 
 		public int getEnPassantStartingRank() {
@@ -25,10 +21,6 @@ public enum PieceColor {
 			return BoardModel.SIZE;
 		}
 
-		public int getPawnStartingRank() {
-			return BoardModel.SIZE - 1;
-		}
-
 		public int getEnPassantStartingRank() {
 			return 4;
 		} 
@@ -38,8 +30,8 @@ public enum PieceColor {
 		}
 	};
 
-	public abstract int getPieceStartingRank(); 
-	public abstract int getPawnStartingRank(); 
-	public abstract int getEnPassantStartingRank(); 
+	public abstract int getPieceStartingRank();
+
+	public abstract int getEnPassantStartingRank();
 	public abstract int getPawnDirection(); 
 }

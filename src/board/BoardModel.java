@@ -1,17 +1,13 @@
 package src.board;
 
-import src.board.pieces.*;
+import src.pieces.*;
 
-public class BoardModel {
+public class BoardModel implements Board {
 
 	public static final int SIZE = 8;
 	private final Piece[][] board;
 
 	public BoardModel() {
-		if (SIZE < 8) {
-			throw new IllegalStateException("Board cannot be smaller than an 8x8");
-		}
-
 		board = new Piece[SIZE][SIZE];
 		setUpStartingPosition();
 	}
@@ -36,13 +32,15 @@ public class BoardModel {
 		return board[rank - 1][file - 1];
 	}
 
-	public void move(MoveStrategy strategy, Move move) {
-		strategy.move(this, move);	
+	public void move(int startRank, int startFile, int endRank, int endFile) {
+		Move move = new Move(startRank, startFile, endRank, endFile);
+		MoveStrategy strategy = MoveStrategyFactory.createMoveStrategy(this, move);
+		strategy.move(move);
 	}
 
 	void addPiece(Piece piece, int rank, int file) {
 		if (piece == null) {
-			throw new IllegalArgumentException("Piece to add cannot be null.");
+			throw new IllegalArgumentException("Cannot add null piece.");
 		}
 
 		board[rank - 1][file - 1] = piece;

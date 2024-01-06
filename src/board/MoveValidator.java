@@ -1,6 +1,6 @@
 package src.board;
 
-import src.board.pieces.*;
+import src.pieces.*;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class MoveValidator {
         boolean isValid;
         try {
             strategy = MoveStrategyFactory.createMoveStrategy(board, move);
-            isValid = strategy.isValidMove(board, move) && !moveWouldCauseCheck(player, move, strategy);
+            isValid = strategy.isValidMove(move) && !moveWouldCauseCheck(player, move, strategy);
         } catch(UnsupportedOperationException e) {
             isValid = false;
         }
@@ -31,11 +31,11 @@ public class MoveValidator {
     }
 
      boolean moveWouldCauseCheck(Player player, Move move, MoveStrategy strategy) {
-        strategy.move(board, move);
+        strategy.move(move);
         updateKingLocation(player, move.endRank(), move.endFile());
         Location kingLocation = player.getKingLocation();
         boolean kingInCheck = squareIsAttacked(kingLocation.rank(), kingLocation.file(), player.getColor());
-        strategy.undoMove(board, move);
+        strategy.undoMove(move);
         updateKingLocation(player, move.startRank(), move.startFile());
         return kingInCheck;
     }

@@ -1,14 +1,19 @@
 package src.board;
 
-import src.board.pieces.Piece;
-import src.board.pieces.PieceType;
+import src.pieces.Piece;
+import src.pieces.PieceType;
 
 public class EnPassantMoveStrategy implements MoveStrategy {
 
+	private final BoardModel board;
 	private boolean pawnMovedBefore;
 	private Piece capturedPawn;
 
-	public void move(BoardModel board, Move move) {
+	public EnPassantMoveStrategy(BoardModel board) {
+		this.board = board;
+	}
+
+	public void move(Move move) {
 		Piece pieceToMove = board.pieceAt(move.startRank(), move.startFile());
 		Piece pieceAtDestination = board.pieceAt(move.endRank(), move.endFile());
 		this.pawnMovedBefore = pieceToMove.hasMoved();
@@ -22,7 +27,7 @@ public class EnPassantMoveStrategy implements MoveStrategy {
 		board.removePiece(move.startRank(), move.endFile());
 	}
 
-	public void undoMove(BoardModel board, Move move) {
+	public void undoMove(Move move) {
 		Piece pieceToMove = board.pieceAt(move.endRank(), move.endFile());
 		board.removePiece(move.endRank(), move.endFile());
 		board.addPiece(pieceToMove, move.startRank(), move.startFile());
@@ -31,7 +36,7 @@ public class EnPassantMoveStrategy implements MoveStrategy {
 		pieceToMove.setHasMoved(pawnMovedBefore);	
 	}	
 
-	public boolean isValidMove(BoardModel board, Move move) {
+	public boolean isValidMove(Move move) {
 		Piece piece = board.pieceAt(move.startRank(), move.startFile());
 		if (piece == null || piece.getType() == PieceType.PAWN) {
 			return false;

@@ -1,4 +1,4 @@
-package src.board.pieces;
+package src.pieces;
 
 import src.board.BoardModel;
 

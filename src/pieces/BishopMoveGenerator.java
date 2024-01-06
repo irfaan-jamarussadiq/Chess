@@ -1,4 +1,4 @@
-package src.board.pieces;
+package src.pieces;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -6,18 +6,17 @@ import java.util.ArrayList;
 import src.board.Move;
 import src.board.BoardModel;
 
-public class RookMoveGenerator implements MoveGenerator {
-
+public class BishopMoveGenerator implements MoveGenerator {
 	private final BoardModel board;
 
-	public RookMoveGenerator(BoardModel board) {
+	public BishopMoveGenerator(BoardModel board) {
 		this.board = board;
 	}
-
+		
 	public List<Move> getMoves(int rank, int file) {
 		Piece piece = board.pieceAt(rank, file);
 		List<Move> moves = new ArrayList<>(2 * BoardModel.SIZE);
-		int[][] directions = { { -1, 0 }, { 0, -1 }, { 1, 0 }, { 0, 1 } }; 
+		int[][] directions = { { -1, -1 }, { -1, 1 }, { 1, -1 }, { 1, 1 } }; 
 		for (int[] direction : directions) {
 			int endRank = rank + direction[0];
 			int endFile = file + direction[1];
@@ -39,5 +38,4 @@ public class RookMoveGenerator implements MoveGenerator {
 
 		return moves;
 	}
-
 }

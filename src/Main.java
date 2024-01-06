@@ -11,11 +11,12 @@ public class Main extends Application {
     public void start(Stage stage) {
         GameController controller = new GameController();
 
-        BorderPane gameView = new BorderPane();
-        gameView.setCenter(controller.getGameView());
-        BorderPane.setMargin(controller.getGameView(), new Insets(20, 20, 20, 20));
+        BorderPane layout = new BorderPane();
+        BoardView boardView = controller.getBoardView();
+        layout.setCenter(boardView);
+        BorderPane.setMargin(boardView, new Insets(20, 20, 20, 20));
 
-        Scene scene = new Scene(gameView, 1000, 1000);
+        Scene scene = new Scene(layout, 1000, 1000);
         stage.setTitle("Chess");
         stage.setScene(scene);
         stage.show();

@@ -1,4 +1,4 @@
-package src.board.pieces;
+package src.pieces;
 
 import java.util.Objects;
 

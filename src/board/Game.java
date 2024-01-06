@@ -1,16 +1,18 @@
 package src.board;
 
-import src.board.pieces.*;
+import src.pieces.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Game {
 	private final BoardModel board;
-
 	public final Player whitePlayer;
 	public final Player blackPlayer;
 	private Player currentPlayer;
+	private GameState gameState;
 	private final MoveValidator validator;
 
 	public Game(BoardModel board) {	
@@ -18,6 +20,8 @@ public class Game {
 		this.whitePlayer = new Player(PieceColor.WHITE);
 		this.blackPlayer = new Player(PieceColor.BLACK);
 		this.currentPlayer = whitePlayer;
+		this.gameState = GameState.ONGOING;
+
 		this.validator = new MoveValidator(board);
 	}
 
@@ -39,13 +43,30 @@ public class Game {
 	}
 
 	public void playMove(int startRank, int startFile, int endRank, int endFile) {
-		Move move = new Move(startRank, startFile, endRank, endFile);	
+		Move move = new Move(startRank, startFile, endRank, endFile);
 		if (validator.isValidMove(currentPlayer, move)) {
-			MoveStrategy strategy = MoveStrategyFactory.createMoveStrategy(board, move);
-			board.move(strategy, move);
+			board.move(startRank, startFile, endRank, endFile);
 			validator.updateKingLocation(currentPlayer, endRank, endFile);
-			currentPlayer = (currentPlayer == whitePlayer) ? blackPlayer : whitePlayer;
+			updateGameState();
 		}
+	}
+
+	public void updateGameState() {
+		if (currentPlayer.getColor() == PieceColor.WHITE && playerIsInCheck(PieceColor.WHITE) && playerHasNoMoves(currentPlayer)) {
+			gameState = GameState.WHITE_WON;
+		} else if (currentPlayer.getColor() == PieceColor.BLACK && playerIsInCheck(PieceColor.BLACK) && playerHasNoMoves(currentPlayer)) {
+			gameState = GameState.BLACK_WON;
+		} else if (playerHasNoMoves(currentPlayer)) {
+			gameState = GameState.STALEMATE;
+		} else {
+			gameState = GameState.ONGOING;
+		}
+
+		currentPlayer = (currentPlayer == whitePlayer) ? blackPlayer : whitePlayer;
+	}
+
+	public GameState getGameState() {
+		return gameState;
 	}
 
 	@Override
@@ -62,7 +83,11 @@ public class Game {
 		}
 
 		MoveGenerator generator = MoveGeneratorFactory.createMoveGenerator(piece, board);
-		for (Move move : generator.getMoves(rank, file)) {
+		Set<Move> moves = new HashSet<>();
+		moves.addAll(generator.getMoves(rank, file));
+		moves.addAll(generator.getCaptures(rank, file));
+
+		for (Move move : moves) {
 			if (MoveValidator.moveIsWithinBoard(move) && validator.isValidMove(currentPlayer, move)) {
 				validMoves.add(move);
 			}

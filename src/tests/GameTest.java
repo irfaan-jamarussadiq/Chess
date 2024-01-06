@@ -1,6 +1,6 @@
 package src.tests;
 
-import src.board.pieces.*;
+import src.pieces.*;
 import src.board.*;
 
 import org.junit.jupiter.api.Test;
@@ -91,10 +91,9 @@ class GameTest {
 	@Test
 	public void testCanShortCastleWithUnoccupiedSquares() {
 		BoardModel board = new BoardModel();
-		MoveStrategy normal = new NormalMoveStrategy();
-		board.move(normal, new Move(2, 5, 4, 5));
-		board.move(normal, new Move(1, 6, 2, 5));
-		board.move(normal, new Move(1, 7, 3, 6));
+		board.move(2, 5, 4, 5);
+		board.move(1, 6, 2, 5);
+		board.move(1, 7, 3, 6);
 
 		Game game = new Game(board);
 		game.playMove(1, 5, 1, 7);
@@ -110,12 +109,11 @@ class GameTest {
 	@Test
 	public void testCannotShortCastleAfterKingMove() {
 		BoardModel board = new BoardModel();
-		MoveStrategy normal = new NormalMoveStrategy();
-		board.move(normal, new Move(2, 5, 4, 5));
-		board.move(normal, new Move(1, 6, 2, 5));
-		board.move(normal, new Move(1, 7, 3, 6));
-		board.move(normal, new Move(1, 5, 1, 6));
-		board.move(normal, new Move(1, 6, 1, 5));
+		board.move(2, 5, 4, 5);
+		board.move(1, 6, 2, 5);
+		board.move(1, 7, 3, 6);
+		board.move(1, 5, 1, 6);
+		board.move(1, 6, 1, 5);
 
 		Game game = new Game(board);
 		game.playMove(1, 5, 1, 7);
@@ -141,13 +139,12 @@ class GameTest {
 	@Test
 	public void testCannotLongCastleAfterKingMove() {
 		BoardModel board = new BoardModel();
-		MoveStrategy normal = new NormalMoveStrategy();
-		board.move(normal, new Move(2, 4, 4, 4));
-		board.move(normal, new Move(1, 3, 3, 5));
-		board.move(normal, new Move(1, 2, 3, 3));
-		board.move(normal, new Move(1, 4, 2, 4));
-		board.move(normal, new Move(1, 5, 1, 4));
-		board.move(normal, new Move(1, 4, 1, 5));
+		board.move(2, 4, 4, 4);
+		board.move(1, 3, 3, 5);
+		board.move(1, 2, 3, 3);
+		board.move(1, 4, 2, 4);
+		board.move(1, 5, 1, 4);
+		board.move(1, 4, 1, 5);
 
 		Game game = new Game(board);
 		game.playMove(1, 5, 1, 3);
@@ -305,8 +302,8 @@ class GameTest {
 		BoardModel board = new BoardModel();
 		Game game = new Game(board);
 		Move[] moves = {
-			new Move(2, 5, 3, 5),			
-			new Move(7, 1, 5, 1),			
+			new Move(2, 5, 3, 5),
+			new Move(7, 1, 5, 1),
 			new Move(1, 4, 5, 8),			
 			new Move(8, 1, 6, 1),			
 			new Move(5, 8, 5, 1),			

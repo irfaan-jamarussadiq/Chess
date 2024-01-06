@@ -2,16 +2,21 @@ package src.board;
 
 import java.util.List;
 
-import src.board.pieces.Piece;
-import src.board.pieces.MoveGenerator;
-import src.board.pieces.MoveGeneratorFactory;
+import src.pieces.Piece;
+import src.pieces.MoveGenerator;
+import src.pieces.MoveGeneratorFactory;
 
 public class CaptureMoveStrategy implements MoveStrategy {
 
+	private final BoardModel board;
 	private boolean pieceHasMovedBefore;
 	private Piece capturedPiece;
 
-	public void move(BoardModel board, Move move) {
+	public CaptureMoveStrategy(BoardModel board) {
+		this.board = board;
+	}
+
+	public void move(Move move) {
 		Piece pieceToMove = board.pieceAt(move.startRank(), move.startFile());
 		Piece pieceAtDestination = board.pieceAt(move.endRank(), move.endFile());
 		board.removePiece(move.startRank(), move.startFile());
@@ -21,7 +26,7 @@ public class CaptureMoveStrategy implements MoveStrategy {
 		this.capturedPiece = pieceAtDestination;
 	}	
 
-	public void undoMove(BoardModel board, Move move) {
+	public void undoMove(Move move) {
 		Piece pieceToMove = board.pieceAt(move.endRank(), move.endFile());
 		board.removePiece(move.endRank(), move.endFile());
 		board.addPiece(pieceToMove, move.startRank(), move.startFile());
@@ -30,7 +35,7 @@ public class CaptureMoveStrategy implements MoveStrategy {
 		pieceToMove.setHasMoved(pieceHasMovedBefore);	
 	}
 	
-	public boolean isValidMove(BoardModel board, Move move) {
+	public boolean isValidMove(Move move) {
 		Piece pieceToMove = board.pieceAt(move.startRank(), move.startFile());
 		Piece pieceAtDestination = board.pieceAt(move.endRank(), move.endFile());
 		if (pieceToMove == null || !pieceToMove.isEnemyOf(pieceAtDestination)) {
