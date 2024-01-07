@@ -1,27 +1,32 @@
-🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿
+🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿🙿
 # Chess ♞
 
-A human vs human player chess program written in Java and JavaFX. Features a graphical user interface (GUI) for playing moves.
-
-## Features
-1. Highlighting piece moves when piece is clicked
-2. Highlighting king when in check/checkmate
-3. Check detection
-4. Castling
-5. Pawn promotion to queen
+This project implements a game of chess using object oriented design principles.
 
 ## Program Design
-1. Object Oriented Design of pieces. 
-    - Used inheritance for pieces (classes for knights, bishops, etc extend from a Piece class)
-2. MVC architecture for chessboard (BoardModel, BoardView, BoardController)
-    - BoardModel tracks the locations of all board pieces.
-    - BoardView tracks the locations of all image representations of the board pieces.
-    - BoardController communicates between the model and view and ties them together.
-3. JUnit Testing using inner classes approach
-    - Individual tests aim to be as small as possible.
-    - Inner classes are used to group elements of testing.
+### Pieces
+A piece is defined by a PieceType (pawn, rook, knight, bishop, queen, or king) and a PieceColor (white or black). It does not know about its location with respect to the chessboard.
+### Board
+The Board class is responsible for moving pieces on the chessboard, but it is not concerned with move validation. Moving a piece in chess is not as simple as taking a piece from the starting location to the destination because of special cases like castling and en passant. Castling involves moving both the king and the rook at the same time. En passant is a special kind of pawn capture where a pawn can capture an adjacent enemy pawn not on its destination square. 
+
+To handle these special cases, I used the Strategy design pattern. This pattern is useful when there is a common behavior but several different algorithms that implement that behavior. I created a MoveStrategy interface that defines a contract for moving a piece, then created other classes that implement specific move strategies. This supports moving pieces using en passant, short castling, long castling, normal moves, and capture moves. Adding a new type of move is as easy as creating a new class that implements MoveStrategy. 
+
+### Game
+The Game class is responsible for validating moves and managing the state of the game. 
+
+A move is valid if it meets all of the following criteria:
+- Within the bounds of the board
+- Made on player's turn
+- Has a valid move strategy to play the move
+- Would not cause check to the player's king
+
+To manage the state of the game, there are methods to determine whether the king is in check, checkmate, or stalemate.
 
 ## GUI Examples
 | Normal Position | Castling Moves | Check | Checkmate |
 | ------------- | ------------- | ------------- | ------------- |
-| <img src="./images/gui_screenshot.PNG" alt="Normal Chess Position" width="250"/> | <img src="./images/gui_castling.PNG" alt="Castling" width="250"/> | <img src="./images/gui_check.PNG" alt="Check" width="250"/> | <img src="./images/gui_checkmate.PNG" alt="Checkmate" width="250"/> |
+| <img src="./assets/gui_screenshot.PNG" alt="Normal Chess Position" width="250"/> | <img src="./assets/gui_castling.PNG" alt="Castling" width="250"/> | <img src="./assets/gui_check.PNG" alt="Check" width="250"/> | <img src="./assets/gui_checkmate.PNG" alt="Checkmate" width="250"/> |
+
+## Unit Tests
+
+Go to the src directory and run `./test.sh <name of test class>`. For example, if you want to run the tests for the Board class, run `./test.sh BoardTest`.
