@@ -54,6 +54,12 @@ public class GameController implements EventHandler<MouseEvent> {
 
             game.playMove(pieceRank, pieceFile, rank, file);
             boardView.createBoardView(boardModel);
+
+            if (game.currentPlayerIsInCheck()) {
+                Location kingLocation = game.getCurrentPlayer().getKingLocation();
+                boardView.showKingIsInCheck(kingLocation.rank(), kingLocation.file());
+            }
+
             pieceToMoveLocation = null;
         }
 

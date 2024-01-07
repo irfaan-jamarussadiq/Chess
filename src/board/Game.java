@@ -32,6 +32,10 @@ public class Game {
 		return validator.squareIsAttacked(kingRank, kingFile, player.getColor());
 	}
 
+	public  boolean currentPlayerIsInCheck() {
+		return playerIsInCheck(currentPlayer.getColor());
+	}
+
 	public boolean playerIsInCheckmate(PieceColor color) {
 		Player player = (color == PieceColor.WHITE) ? whitePlayer : blackPlayer;
 		return playerIsInCheck(color) && playerHasNoMoves(player);
@@ -69,13 +73,6 @@ public class Game {
 		return gameState;
 	}
 
-	@Override
-	public String toString() {
-		String player = (currentPlayer == whitePlayer) ? "WHITE" : "BLACK";	
-		String playerString = String.format("Current player: %s", player);
-		return playerString + "\n" + board.toString();
-	}
-
 	public List<Move> getValidMoves(Piece piece, int rank, int file) {
 		List<Move> validMoves = new ArrayList<>();
 		if (piece == null) {
@@ -96,6 +93,13 @@ public class Game {
 		return validMoves;
 	}
 
+	@Override
+	public String toString() {
+		String player = (currentPlayer == whitePlayer) ? "WHITE" : "BLACK";
+		String playerString = String.format("Current player: %s", player);
+		return playerString + "\n" + board.toString();
+	}
+
 	private boolean playerHasNoMoves(Player player) {
 		for (int rank = 1; rank <= BoardModel.SIZE; rank++) {
 			for (int file = 1; file <= BoardModel.SIZE; file++) {
@@ -114,4 +118,7 @@ public class Game {
 		return true;			 
 	}
 
+	public Player getCurrentPlayer() {
+		return  currentPlayer;
+	}
 }
