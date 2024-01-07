@@ -3,17 +3,19 @@ package src;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import src.board.*;
 import src.pieces.Piece;
-import src.pieces.PieceColor;
 
 public class GameController implements EventHandler<MouseEvent> {
     private final BoardView boardView;
@@ -22,7 +24,7 @@ public class GameController implements EventHandler<MouseEvent> {
     private final MoveValidator validator;
     private final ObservableList<MoveText> moves;
     private final ListView<MoveText> moveListView;
-    private final Text currentPlayerText, statusText;
+    private final Text statusText;
     private final Stage dialog;
     private Location pieceToMoveLocation;
 
@@ -35,20 +37,41 @@ public class GameController implements EventHandler<MouseEvent> {
         validator = new MoveValidator(boardModel);
         moves = FXCollections.observableArrayList();
         moveListView = new ListView<>();
-        currentPlayerText = new Text();
-        statusText = new Text();
 
-        this.dialog = new Stage();
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        Pane root = new VBox();
-        root.getChildren().addAll(currentPlayerText, statusText);
-        Scene dialogScene = new Scene(root, 400, 400);
-        dialog.setScene(dialogScene);
+        statusText = new Text();
+        dialog = createPopup(statusText);
     }
 
     void updateGameText() {
-        currentPlayerText.setText(String.format("Current player: %s", game.getCurrentPlayer().getColor()));
-        statusText.setText(String.format("Game status: %s", game.getGameState()));
+        GameState state = game.getGameState();
+        if (state == GameState.ONGOING) {
+            statusText.setText("Game is still ongoing.");
+        } else if (state == GameState.WHITE_WON) {
+            statusText.setText("White won!");
+        } else if (state == GameState.BLACK_WON) {
+            statusText.setText("Black won!");
+        } else {
+            statusText.setText("Game ended in a draw.");
+        }
+    }
+
+    Stage createPopup(Text statusText) {
+        Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+
+        VBox box = new VBox();
+        statusText.setTextAlignment(TextAlignment.CENTER);
+        Button button = new Button("Play again");
+        button.setOnAction(e -> dialog.close());
+        box.getChildren().addAll(statusText, button);
+        box.setAlignment(Pos.CENTER);
+
+        StackPane root = new StackPane();
+        root.getChildren().add(box);
+
+        Scene dialogScene = new Scene(root, 200, 100);
+        dialog.setScene(dialogScene);
+        return dialog;
     }
 
     public BoardView getBoardView() {
