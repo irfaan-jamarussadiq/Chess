@@ -27,6 +27,10 @@ To manage the state of the game, there are methods to determine whether the king
 |------------------------------------------------------------------------------------|-------------------------------------------------------------------------|-------------------------------------------------------------------|---------------------------------------------------------------------------|
 | <img src="./assets/chess-gui-normal.png" alt="Normal Chess Position" width="250"/> | <img src="./assets/chess-gui-castling.png" alt="Castling" width="250"/> | <img src="./assets/chess-gui-check.png" alt="Check" width="250"/> | <img src="./assets/chess-gui-checkmate.png" alt="Checkmate" width="250"/> |
 
-## Unit Tests
+## How to Run
+
+Run `Main.java` in the src directory.
+
+### Unit Tests
 
 Go to the src directory and run `./test.sh <name of test class>`. For example, if you want to run the tests for the Board class, run `./test.sh BoardTest`.
