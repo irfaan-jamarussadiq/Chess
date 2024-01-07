@@ -2,10 +2,7 @@ package src.board;
 
 import src.pieces.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Game {
 	private final BoardModel board;
@@ -51,22 +48,21 @@ public class Game {
 		if (validator.isValidMove(currentPlayer, move)) {
 			board.move(startRank, startFile, endRank, endFile);
 			validator.updateKingLocation(currentPlayer, endRank, endFile);
+			currentPlayer = (currentPlayer == whitePlayer) ? blackPlayer : whitePlayer;
 			updateGameState();
 		}
 	}
 
 	public void updateGameState() {
 		if (currentPlayer.getColor() == PieceColor.WHITE && playerIsInCheck(PieceColor.WHITE) && playerHasNoMoves(currentPlayer)) {
-			gameState = GameState.WHITE_WON;
-		} else if (currentPlayer.getColor() == PieceColor.BLACK && playerIsInCheck(PieceColor.BLACK) && playerHasNoMoves(currentPlayer)) {
 			gameState = GameState.BLACK_WON;
+		} else if (currentPlayer.getColor() == PieceColor.BLACK && playerIsInCheck(PieceColor.BLACK) && playerHasNoMoves(currentPlayer)) {
+			gameState = GameState.WHITE_WON;
 		} else if (playerHasNoMoves(currentPlayer)) {
 			gameState = GameState.STALEMATE;
 		} else {
 			gameState = GameState.ONGOING;
 		}
-
-		currentPlayer = (currentPlayer == whitePlayer) ? blackPlayer : whitePlayer;
 	}
 
 	public GameState getGameState() {
@@ -93,6 +89,10 @@ public class Game {
 		return validMoves;
 	}
 
+	public Player getCurrentPlayer() {
+		return  currentPlayer;
+	}
+
 	@Override
 	public String toString() {
 		String player = (currentPlayer == whitePlayer) ? "WHITE" : "BLACK";
@@ -116,9 +116,5 @@ public class Game {
 		}
 
 		return true;			 
-	}
-
-	public Player getCurrentPlayer() {
-		return  currentPlayer;
 	}
 }

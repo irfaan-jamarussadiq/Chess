@@ -64,7 +64,8 @@ public class LongCastlingMoveStrategy implements MoveStrategy {
 		int startingRank = expectedKing.getColor().getPieceStartingRank();
 		return move.startRank() == startingRank && move.endFile() == 3
 				&& board.pieceAt(startingRank, 2) == null
-				&& board.pieceAt(startingRank, 3) == null;
+				&& board.pieceAt(startingRank, 3) == null
+				&& board.pieceAt(startingRank, 4) == null;
 
 	}
 		 
