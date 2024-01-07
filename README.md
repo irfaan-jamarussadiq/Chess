@@ -23,9 +23,9 @@ A move is valid if it meets all of the following criteria:
 To manage the state of the game, there are methods to determine whether the king is in check, checkmate, or stalemate.
 
 ## GUI Examples
-| Normal Position | Castling Moves | Check | Checkmate |
-| ------------- | ------------- | ------------- | ------------- |
-| <img src="./assets/gui_screenshot.PNG" alt="Normal Chess Position" width="250"/> | <img src="./assets/gui_castling.PNG" alt="Castling" width="250"/> | <img src="./assets/gui_check.PNG" alt="Check" width="250"/> | <img src="./assets/gui_checkmate.PNG" alt="Checkmate" width="250"/> |
+| Normal Moves                                                                       | Castling Moves                                                          | Check                                                             | Checkmate                                                                 |
+|------------------------------------------------------------------------------------|-------------------------------------------------------------------------|-------------------------------------------------------------------|---------------------------------------------------------------------------|
+| <img src="./assets/chess-gui-normal.png" alt="Normal Chess Position" width="250"/> | <img src="./assets/chess-gui-castling.png" alt="Castling" width="250"/> | <img src="./assets/chess-gui-check.png" alt="Check" width="250"/> | <img src="./assets/chess-gui-checkmate.png" alt="Checkmate" width="250"/> |
 
 ## How to Run
 
